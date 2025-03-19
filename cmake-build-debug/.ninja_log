@@ -1,0 +1,19 @@
+# ninja log v6
+6	1683	1742268880309292590	CMakeFiles/ChromeDino.dir/src/main.cpp.o	37ff3e81becbe9e8
+1	112	1742273733418663695	build.ninja	ee00c3a56bd69c19
+2	103	1742268514490804853	CMakeFiles/ChromeDino.dir/src/Clouds.cpp.o	f475ce6b155b3ebb
+5	102	1742268514494110433	CMakeFiles/ChromeDino.dir/src/SoundManager.cpp.o	f17214f9b9ebe2ee
+3	103	1742268514491748964	CMakeFiles/ChromeDino.dir/src/Fps.cpp.o	f97e36d54e9d1dec
+5	102	1742268514493731810	CMakeFiles/ChromeDino.dir/src/Scores.cpp.o	232043e69f88fcaa
+4	102	1742268514493083529	CMakeFiles/ChromeDino.dir/src/Obstacles.cpp.o	263bf6577cdf3028
+3	101	1742268514492086068	CMakeFiles/ChromeDino.dir/src/GameState.cpp.o	263312b2160f87c1
+15	2384	1742281151831327292	CMakeFiles/ChromeDino.dir/src/RestartButton.cpp.o	2ee57c5dbf26a9b8
+9	2385	1742281151825118620	CMakeFiles/ChromeDino.dir/src/main.cpp.o	37ff3e81becbe9e8
+14	2387	1742281151830615654	CMakeFiles/ChromeDino.dir/src/Ground.cpp.o	f9f190425c5642c4
+15	2388	1742281151831002881	CMakeFiles/ChromeDino.dir/src/Obstacles.cpp.o	263bf6577cdf3028
+16	2515	1742281151832117797	CMakeFiles/ChromeDino.dir/src/Scores.cpp.o	232043e69f88fcaa
+12	2517	1742281151828808568	CMakeFiles/ChromeDino.dir/src/Dino.cpp.o	869198f14d051764
+12	2560	1742281151828061909	CMakeFiles/ChromeDino.dir/src/Clouds.cpp.o	f475ce6b155b3ebb
+17	2594	1742281151833450634	CMakeFiles/ChromeDino.dir/src/SoundManager.cpp.o	f17214f9b9ebe2ee
+14	2688	1742281151830122531	CMakeFiles/ChromeDino.dir/src/GameState.cpp.o	263312b2160f87c1
+6	1521	1742281303997780208	CMakeFiles/ChromeDino.dir/src/FPS.cpp.o	94c8ebf0f616b193
