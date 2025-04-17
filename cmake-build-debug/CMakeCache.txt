@@ -133,11 +133,11 @@ CMAKE_OSX_ARCHITECTURES:STRING=
 
 //Minimum OS X version to target for deployment (at runtime); newer
 // APIs weak linked. Set to empty string for default value.
-CMAKE_OSX_DEPLOYMENT_TARGET:STRING=
+CMAKE_OSX_DEPLOYMENT_TARGET:STRING=15.3
 
 //The product will be built against the headers and libraries located
 // inside the indicated SDK.
-CMAKE_OSX_SYSROOT:PATH=/Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk
+CMAKE_OSX_SYSROOT:PATH=/Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk
 
 //Value Computed by CMake
 CMAKE_PROJECT_DESCRIPTION:STATIC=
@@ -214,15 +214,6 @@ CMAKE_TAPI:FILEPATH=/Library/Developer/CommandLineTools/usr/bin/tapi
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
 //Value Computed by CMake
-ChromeDinoGame_BINARY_DIR:STATIC=/Users/datnguyen/Documents/ChromeDino/cmake-build-debug
-
-//Value Computed by CMake
-ChromeDinoGame_IS_TOP_LEVEL:STATIC=ON
-
-//Value Computed by CMake
-ChromeDinoGame_SOURCE_DIR:STATIC=/Users/datnguyen/Documents/ChromeDino
-
-//Value Computed by CMake
 ChromeDino_BINARY_DIR:STATIC=/Users/datnguyen/Documents/ChromeDino/cmake-build-debug
 
 //Value Computed by CMake
@@ -232,10 +223,10 @@ ChromeDino_IS_TOP_LEVEL:STATIC=ON
 ChromeDino_SOURCE_DIR:STATIC=/Users/datnguyen/Documents/ChromeDino
 
 //The directory containing a CMake configuration file for SFML.
-SFML_DIR:PATH=/usr/local/lib/cmake/SFML
+SFML_DIR:PATH=/usr/local/opt/sfml@2/lib/cmake/SFML
 
 //Path to a file.
-SFML_DOC_DIR:PATH=/usr/local/share/doc/SFML
+SFML_DOC_DIR:PATH=/usr/local/opt/sfml@2/share/doc/SFML
 
 
 ########################
