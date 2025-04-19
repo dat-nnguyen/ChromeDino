@@ -21,7 +21,7 @@ void Dino::update(sf::Time& deltaTime, std::vector<Obstacle>& obstacles) {
 
   // if dino is collide with obstactcle, player is dead
   for (auto& obs : obstacles) {
-    if (dinoBounds.intersects(obs.obstacleBounds)) {
+    if (dinoBounds.findIntersection(obs.obstacleBounds)) {
       playerDead = true;
     }
   }
@@ -30,7 +30,7 @@ void Dino::update(sf::Time& deltaTime, std::vector<Obstacle>& obstacles) {
     walk();
 
     // jump logic, hopefully the jump animation is good
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) &&
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Space) &&
         dinoPos.y >= windowSize_y - 150.f) {
       animationCounter = 0;
       dinoMotion.y = -20.f;
@@ -55,7 +55,7 @@ void Dino::update(sf::Time& deltaTime, std::vector<Obstacle>& obstacles) {
 
     if (timeTracker.asMilliseconds() > 170.f) {
       sound.dieSound.stop();
-      sound.dieSound.setLoop(false);
+      sound.dieSound.setLooping(false);
       timeTracker = sf::Time::Zero;
     } else {
       sound.dieSound.play();

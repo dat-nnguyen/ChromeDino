@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 project(ChromeDino)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Set path to Homebrew-installed SFML@2
@@ -23,7 +23,7 @@ set(SOURCES
 add_executable(ChromeDino ${SOURCES})
 
 # SFML setup
-find_package(SFML 2.5 REQUIRED COMPONENTS graphics audio network window)
+find_package(SFML 3.0 REQUIRED COMPONENTS Graphics Audio Network Window)
 
 # Link libraries
 target_link_libraries(ChromeDino PRIVATE

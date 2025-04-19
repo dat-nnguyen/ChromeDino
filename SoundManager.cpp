@@ -1,5 +1,6 @@
 #include "SoundManager.h"
 
+
 Sound::Sound()
     : dieBuffer(),
       jumpBuffer(),

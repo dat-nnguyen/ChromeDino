@@ -34,7 +34,7 @@ class GameState {
         scores(),
         clouds(),
         gameOverFont(),
-        gameOverText() {
+        gameOverText(),{
     gameOverFont.loadFromFile("assets/Fonts/Font.ttf");
     gameOverText.setFont(gameOverFont);
     dino.dino.setPosition(sf::Vector2f(windowSize_x / 2 - windowSize_x / 4,

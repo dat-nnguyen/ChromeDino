@@ -1,4 +1,5 @@
 #include "Ground.h"
+#include <SFML/Graphics.hpp>
 
 Ground::Ground() : groundSprite(), groundTexture() {
     if (groundTexture.loadFromFile("assets/Images/GroundImage.png")) {
