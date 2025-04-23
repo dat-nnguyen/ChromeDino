@@ -40,7 +40,7 @@ void Obstacles::update(sf::Time& deltaTime) {
     for (int i = 0; i < obstacles.size(); i++) {
       obstacles[i].obstacleBounds = obstacles[i].obstacleSprite.getGlobalBounds();
       obstacles[i].obstacleBounds.width -= 10.f;
-      obstacles[i].obstacleSprite.move(-1 * gameSpeed, 0.f);
+      obstacles[i].obstacleSprite.move(-1.f * gameSpeed, 0.f);
       if (obstacles[i].obstacleSprite.getPosition().x < -150.f) {
         obstacles.erase(obstacles.begin() + i);
         i--;  // prevent skipping the next one after erase

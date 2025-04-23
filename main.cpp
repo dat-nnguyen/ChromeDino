@@ -4,6 +4,7 @@
 #include <iostream>
 #include <random>
 #include <vector>
+#include <array>
 
 #include "Constants.h"
 #include "Dino.h"

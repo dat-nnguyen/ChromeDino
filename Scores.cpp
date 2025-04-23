@@ -1,6 +1,6 @@
 #include "Scores.h"
 
-Scores::Scores() // object score doesn move, but update the score
+Scores::Scores() // object score doesn't move, but update the score
     : scoresFont(), scoresText(), previousScoreText(), HIText(), scoresInital(),
       sound() {
   if (scoresFont.loadFromFile("assets/Fonts/Font.ttf")) {

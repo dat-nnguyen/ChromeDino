@@ -1,10 +1,16 @@
 #include "Dino.h"
-
-Dino::Dino() : dino(), dinoTex(), sound(), timeTracker() {
+#include <iostream>
+#include <vector>
+#include <SFML/Graphics.hpp>
+#include <array>
+constexpr int FRAME_WIDTH = 90;
+constexpr int FRAME_HEIGHT = 95;
+Dino::Dino() : dinoBounds() {
   if (dinoTex.loadFromFile("assets/Images/PlayerSpriteSheet.png")) {
     dino.setTexture(dinoTex);
-    for (int i = 0; i < frames.size(); i++)
-      frames[i] = sf::IntRect(i * 90, 0, 90, 95);
+    for (size_t i = 0; i < frames.size(); i++) {
+      frames[i] = sf::IntRect(i * FRAME_WIDTH, 0, FRAME_WIDTH, FRAME_HEIGHT);
+    }
     dino.setTextureRect(frames[0]);
     dinoPos = dino.getPosition();
   } else {
@@ -82,3 +88,4 @@ void Dino::reset() {
   dino.setPosition(sf::Vector2f(dino.getPosition().x, windowSize_y - 150.f));
   dino.setTextureRect(frames[0]);
 }
+

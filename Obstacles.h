@@ -8,7 +8,7 @@ class Obstacle { // cactus
 public:
     Obstacle(sf::Texture& texture); // hold the image
 
-    sf::Sprite obstacleSprite{}; // the frame of the image (texture)
+  sf::Sprite obstacleSprite{}; // the frame of the image (texture)
 
     sf::FloatRect obstacleBounds{0.f, 0.f, 0.f, 0.f}; // space that the object ocuipie on the screen
     // for collision detecting

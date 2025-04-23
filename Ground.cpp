@@ -1,7 +1,8 @@
 #include "Ground.h"
 #include <SFML/Graphics.hpp>
-
-Ground::Ground() : groundSprite(), groundTexture() {
+#include "Constants.h"
+#include <array>
+Ground::Ground() : groundTexture() {
     if (groundTexture.loadFromFile("assets/Images/GroundImage.png")) {
         groundSprite.setTexture(groundTexture);
         groundSprite.setPosition(
@@ -17,14 +18,15 @@ void Ground::updateGround() {
 
         offset += gameSpeed;
         groundSprite.setTextureRect(
-            sf::IntRect(offset, 0, windowSize_x, windowSize_y));
+            sf::IntRect<int>(offset, 0, windowSize_x, windowSize_y));
     } else {
         groundSprite.setTextureRect(
-            sf::IntRect(offset, 0, windowSize_x, windowSize_y));
+            sf::IntRect<int>(offset, 0, windowSize_x, windowSize_y));
     }
 }
 
 void Ground::reset() {
     offset = 0;
-    groundSprite.setTextureRect(sf::IntRect(0, 0, windowSize_x, windowSize_y));
+    groundSprite.setTextureRect(
+        sf::IntRect<int>(offset, 0, windowSize_x, windowSize_y));
 }

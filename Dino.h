@@ -11,7 +11,7 @@ extern float windowSize_y;
 // detect collision with cactus (obstcle)
 class Dino {
 public:
-     sf::Sprite dino;
+     sf::Sprite dino{};
      sf::Vector2f dinoPos{0.f, 0.f};
      sf::Vector2f dinoMotion{0.f, 0.f};
      sf::Texture dinoTex;

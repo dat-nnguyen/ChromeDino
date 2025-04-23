@@ -1,5 +1,7 @@
 #include "Clouds.h"
 #include "Constants.h"
+#include <array>
+
 Clouds::Clouds() : cloudTexture(), clouds(), currTime(), dev() {
     if (cloudTexture.loadFromFile("assets/Images/Clouds.png")) {
         std::cout << "Loaded CloudTexture" << std::endl;

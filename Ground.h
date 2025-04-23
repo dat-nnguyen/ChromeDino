@@ -5,7 +5,7 @@
 
 class Ground {
 public:
-    sf::Sprite groundSprite;
+    sf::Sprite groundSprite{};
     sf::Texture groundTexture;
     int offset{0};
 
