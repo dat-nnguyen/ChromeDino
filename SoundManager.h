@@ -1,17 +1,19 @@
-#pragma once  // prevent duplicated definition
-// kinda like #ifndef SOUND_H
+#pragma once
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
+#include <string>
+#include <iostream>
 
-#include <SFML/Audio.hpp>
-
-// sound, easy enough
 class Sound {
 public:
-    sf::SoundBuffer dieBuffer; // buffer is the sound audio from a file
-    sf::SoundBuffer jumpBuffer;
-    sf::SoundBuffer pointBuffer;
-    sf::Sound dieSound; // object sounds let us play/loop/stop the buffer, here we only need to play the buffer
-    sf::Sound jumpSound;
-    sf::Sound pointSound;
+    Mix_Chunk* dieSound;
+    Mix_Chunk* jumpSound;
+    Mix_Chunk* pointSound;
 
     Sound();
+    ~Sound();
+    
+    void playDieSound();
+    void playJumpSound();
+    void playPointSound();
 };

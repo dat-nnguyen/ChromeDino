@@ -1,19 +1,19 @@
 #pragma once
-#include <SFML/Graphics.hpp>
-#include <random>
+#include <SDL2/SDL.h>
 #include <vector>
-#include <iostream>
-#include "Constants.h"  // for windowSize_x, windowSize_y, playerDead
+#include <random>
+#include "TextureManager.h"
+#include "Constants.h"
 
 class Clouds {
 public:
-    std::vector<sf::Sprite> clouds;
-    sf::Time currTime;
-    sf::Texture cloudTexture;
-    std::random_device dev;
-    std::mt19937 rng{dev()};
-
-    Clouds();
-    void updateClouds(sf::Time& deltaTime);
-    void drawTo(sf::RenderWindow& window);
+    std::vector<SDL_Rect> cloudPositions;
+    SDL_Texture* cloudTexture;
+    Uint32 lastCloudTime;
+    std::mt19937 rng;
+    
+    Clouds(SDL_Renderer* renderer);
+    ~Clouds();
+    void updateClouds(Uint32 currentTime);
+    void render(SDL_Renderer* renderer);
 };

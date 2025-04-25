@@ -1,64 +1,87 @@
 #include "Obstacles.h"
-#include "Constants.h"
 
-Obstacle::Obstacle(sf::Texture& texture) : obstacleSprite(), obstacleBounds() {
-  obstacleSprite.setTexture(texture);
-  obstacleSprite.setPosition(sf::Vector2f(windowSize_x, groundOffset));
+Obstacle::Obstacle(SDL_Texture* tex, SDL_Renderer* renderer) : texture(tex) {
+    // Configure the obstacle's source rectangle (entire texture)
+    srcRect.x = 0;
+    srcRect.y = 0;
+    SDL_QueryTexture(tex, NULL, NULL, &srcRect.w, &srcRect.h);
+    
+    // Position the obstacle at the right side of the screen
+    destRect.x = windowSize_x;
+    destRect.y = groundOffset;
+    destRect.w = srcRect.w;
+    destRect.h = srcRect.h;
+    
+    // Set up collision rectangle (slightly smaller than visual)
+    collisionRect = destRect;
+    collisionRect.w -= 10;
 }
 
-Obstacles::Obstacles() : spawnTimer(sf::Time::Zero) {
-  obstacles.reserve(5);
-
-  if (obstacleTexture_1.loadFromFile("assets/Images/Cactus1.png")) {
-    std::cout << "loaded cactus Image 1 " << std::endl;
-  }
-
-  if (obstacleTexture_2.loadFromFile("assets/Images/Cactus2.png")) {
-    std::cout << "Loaded cactus Image 2" << std::endl;
-  }
-
-  if (obstacleTexture_3.loadFromFile("assets/Images/Cactus3.png")) {
-    std::cout << "Loaded cactus Image 3" << std::endl;
-  }
+Obstacles::Obstacles(SDL_Renderer* renderer) : lastSpawnTime(0) {
+    obstacles.reserve(5);
+    
+    // Initialize random seed
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
+    
+    obstacleTexture_1 = TextureManager::LoadTexture("assets/Images/Cactus1.png", renderer);
+    if (obstacleTexture_1) {
+        std::cout << "Loaded cactus Image 1" << std::endl;
+    }
+    
+    obstacleTexture_2 = TextureManager::LoadTexture("assets/Images/Cactus2.png", renderer);
+    if (obstacleTexture_2) {
+        std::cout << "Loaded cactus Image 2" << std::endl;
+    }
+    
+    obstacleTexture_3 = TextureManager::LoadTexture("assets/Images/Cactus3.png", renderer);
+    if (obstacleTexture_3) {
+        std::cout << "Loaded cactus Image 3" << std::endl;
+    }
 }
 
-// When enough time passes, randomly spawns a new cactus (choosing one of 3 textures)
-// If the player is alive, every obstacle moves left, and eventually off the screen
-void Obstacles::update(sf::Time& deltaTime) {
-  spawnTimer += deltaTime;
-  if (spawnTimer.asSeconds() > 0.5f + gameSpeed / 8) {
-    randomNumber = (rand() % 3) + 1;
-    if (randomNumber == 1) {
-      obstacles.emplace_back(Obstacle(obstacleTexture_1));
-    } else if (randomNumber == 2 || randomNumber == 3) {
-      obstacles.emplace_back(Obstacle(obstacleTexture_2));
-    }
-    spawnTimer = sf::Time::Zero;
-  }
+Obstacles::~Obstacles() {
+    SDL_DestroyTexture(obstacleTexture_1);
+    SDL_DestroyTexture(obstacleTexture_2);
+    SDL_DestroyTexture(obstacleTexture_3);
+}
 
-  if (!playerDead) {
-    for (int i = 0; i < obstacles.size(); i++) {
-      obstacles[i].obstacleBounds = obstacles[i].obstacleSprite.getGlobalBounds();
-      obstacles[i].obstacleBounds.width -= 10.f;
-      obstacles[i].obstacleSprite.move(-1.f * gameSpeed, 0.f);
-      if (obstacles[i].obstacleSprite.getPosition().x < -150.f) {
-        obstacles.erase(obstacles.begin() + i);
-        i--;  // prevent skipping the next one after erase
-      }
+void Obstacles::update(Uint32 currentTime) {
+    // Spawn new obstacles periodically
+    Uint32 elapsedTime = currentTime - lastSpawnTime;
+    if (elapsedTime > (500 + gameSpeed * 125)) {  // 0.5 seconds + gameSpeed adjustment
+        randomNumber = (std::rand() % 3) + 1;
+        
+        if (randomNumber == 1) {
+            obstacles.emplace_back(obstacleTexture_1, nullptr);
+        } else if (randomNumber == 2 || randomNumber == 3) {
+            obstacles.emplace_back(obstacleTexture_2, nullptr);
+        }
+        
+        lastSpawnTime = currentTime;
     }
-  } else { // player is dead, everything stop moving
+    
+    if (!playerDead) {
+        for (int i = 0; i < obstacles.size(); i++) {
+            // Update collision rect position
+            obstacles[i].destRect.x -= gameSpeed;
+            obstacles[i].collisionRect = obstacles[i].destRect;
+            obstacles[i].collisionRect.w -= 10;
+            
+            // Remove obstacles that have moved off screen
+            if (obstacles[i].destRect.x < -150) {
+                obstacles.erase(obstacles.begin() + i);
+                i--; // adjust index after erasing
+            }
+        }
+    }
+}
+
+void Obstacles::render(SDL_Renderer* renderer) {
     for (auto& obstacle : obstacles) {
-      obstacle.obstacleSprite.move(0.f, 0.f);
+        TextureManager::Draw(obstacle.texture, obstacle.srcRect, obstacle.destRect, renderer);
     }
-  }
-}
-
-void Obstacles::drawTo(sf::RenderWindow& window) {
-  for (auto& obstacle : obstacles) {
-    window.draw(obstacle.obstacleSprite);
-  }
 }
 
 void Obstacles::reset() {
-  obstacles.clear();
+    obstacles.clear();
 }

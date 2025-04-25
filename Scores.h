@@ -1,23 +1,31 @@
 #pragma once
-#include <SFML/Graphics.hpp>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <string>
 #include "SoundManager.h"
-#include "Constants.h"  // for windowSize_x, gameSpeed, playerDead
+#include "Constants.h"
 
 class Scores {
 public:
-    sf::Text previousScoreText;
-    sf::Text HIText;
-    sf::Text scoresText;
-    sf::Font scoresFont;
-    Sound sound;
-    short scores{0};
-    short previousScore{0};
-    short scoresIndex{0};
-    short scoresDiff{0};
-    short scoresInital{0};
-
-    Scores();
-    void update();
-    void reset();
+    TTF_Font* font;
+    SDL_Texture* scoreTexture;
+    SDL_Texture* prevScoreTexture;
+    SDL_Texture* hiTextTexture;
+    
+    SDL_Rect scoreRect;
+    SDL_Rect prevScoreRect;
+    SDL_Rect hiTextRect;
+    
+    Sound* sound;
+    short scores;
+    short previousScore;
+    short scoresIndex;
+    short scoresDiff;
+    short scoresInital;
+    
+    Scores(SDL_Renderer* renderer, Sound* soundManager);
+    ~Scores();
+    void update(SDL_Renderer* renderer);
+    void render(SDL_Renderer* renderer);
+    void reset(SDL_Renderer* renderer);
 };

@@ -1,32 +1,42 @@
 #include "Ground.h"
-#include <SFML/Graphics.hpp>
-#include "Constants.h"
-#include <array>
-Ground::Ground() : groundTexture() {
-    if (groundTexture.loadFromFile("assets/Images/GroundImage.png")) {
-        groundSprite.setTexture(groundTexture);
-        groundSprite.setPosition(
-            sf::Vector2f(0.f, windowSize_y - groundTexture.getSize().y - 50));
+
+Ground::Ground(SDL_Renderer* renderer) : offset(0) {
+    groundTexture = TextureManager::LoadTexture("assets/Images/GroundImage.png", renderer);
+    
+    if (groundTexture) {
+        SDL_QueryTexture(groundTexture, NULL, NULL, &textureWidth, &srcRect.h);
+        
+        srcRect.x = 0;
+        srcRect.y = 0;
+        srcRect.w = windowSize_x;
+        
+        destRect.x = 0;
+        destRect.y = windowSize_y - srcRect.h - 50;
+        destRect.w = windowSize_x;
+        destRect.h = srcRect.h;
     }
+}
+
+Ground::~Ground() {
+    SDL_DestroyTexture(groundTexture);
 }
 
 void Ground::updateGround() {
     if (!playerDead) {
-        if (offset > groundTexture.getSize().x - windowSize_x) {
+        if (offset > textureWidth - windowSize_x) {
             offset = 0;
         }
-
+        
         offset += gameSpeed;
-        groundSprite.setTextureRect(
-            sf::IntRect<int>(offset, 0, windowSize_x, windowSize_y));
-    } else {
-        groundSprite.setTextureRect(
-            sf::IntRect<int>(offset, 0, windowSize_x, windowSize_y));
+        srcRect.x = offset;
     }
+}
+
+void Ground::render(SDL_Renderer* renderer) {
+    TextureManager::Draw(groundTexture, srcRect, destRect, renderer);
 }
 
 void Ground::reset() {
     offset = 0;
-    groundSprite.setTextureRect(
-        sf::IntRect<int>(offset, 0, windowSize_x, windowSize_y));
+    srcRect.x = offset;
 }

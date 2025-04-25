@@ -1,31 +1,34 @@
 #pragma once
-
-#include <SFML/Graphics.hpp>
-#include <iostream>
+#include <SDL2/SDL.h>
 #include <vector>
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include "TextureManager.h"
+#include "Constants.h"
 
-class Obstacle { // cactus
+class Obstacle {
 public:
-    Obstacle(sf::Texture& texture); // hold the image
+    SDL_Texture* texture;
+    SDL_Rect srcRect;
+    SDL_Rect destRect;
+    SDL_Rect collisionRect;
 
-  sf::Sprite obstacleSprite{}; // the frame of the image (texture)
-
-    sf::FloatRect obstacleBounds{0.f, 0.f, 0.f, 0.f}; // space that the object ocuipie on the screen
-    // for collision detecting
+    Obstacle(SDL_Texture* tex, SDL_Renderer* renderer);
 };
 
 class Obstacles {
 public:
     std::vector<Obstacle> obstacles;
-    sf::Time spawnTimer;
-    sf::Texture obstacleTexture_1;
-    sf::Texture obstacleTexture_2;
-    sf::Texture obstacleTexture_3;
-    int randomNumber{0};
+    Uint32 lastSpawnTime;
+    SDL_Texture* obstacleTexture_1;
+    SDL_Texture* obstacleTexture_2;
+    SDL_Texture* obstacleTexture_3;
+    int randomNumber;
 
-    Obstacles();
-
-    void update(sf::Time& deltaTime);
-    void drawTo(sf::RenderWindow& window);
+    Obstacles(SDL_Renderer* renderer);
+    ~Obstacles();
+    void update(Uint32 currentTime);
+    void render(SDL_Renderer* renderer);
     void reset();
 };

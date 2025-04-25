@@ -1,120 +1,99 @@
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include <array>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
 #include <iostream>
-#include <random>
-#include <vector>
-#include <array>
-
 #include "Constants.h"
-#include "Dino.h"
-#include "Obstacles.h"
-#include "SoundManager.h"
-#include "Ground.h"
-#include "Scores.h"
-#include "Clouds.h"
-#include "RestartButton.h"
+#include "GameState.h"
 
-
-class GameState {
- public:
-  Dino dino;
-  Ground ground;
-  Obstacles obstacles;
-  Scores scores;
-  Clouds clouds;
-  RestartButton restartButton;
-  sf::Font gameOverFont;
-  sf::Text gameOverText;
-  sf::Vector2f mousePos{0.f, 0.f};
-
-  GameState()
-      : dino(),
-        ground(),
-        obstacles(),
-        scores(),
-        clouds(),
-        gameOverFont(),
-        gameOverText(),{
-    gameOverFont.loadFromFile("assets/Fonts/Font.ttf");
-    gameOverText.setFont(gameOverFont);
-    dino.dino.setPosition(sf::Vector2f(windowSize_x / 2 - windowSize_x / 4,
-                                       windowSize_y - 150.f));
-    gameOverText.setString("Game Over");
-    gameOverText.setPosition(
-        sf::Vector2f(restartButton.restartButtonSprite.getPosition().x -
-                         gameOverText.getCharacterSize(),
-                     restartButton.restartButtonSprite.getPosition().y - 50));
-    gameOverText.setFillColor(sf::Color(83, 83, 83));
-  }
-  void setMousePos(sf::Vector2i p_mousePos) {
-    mousePos.x = p_mousePos.x;
-    mousePos.y = p_mousePos.y;
-  }
-
-  void update(sf::Time deltaTime) {
-    restartButton.checkPressed = sf::Mouse::isButtonPressed(sf::Mouse::Left);
-    if (playerDead == true &&
-        restartButton.restartButtonSpriteBounds.contains(mousePos) &&
-        restartButton.checkPressed == true) {
-      ground.reset();
-      obstacles.reset();
-      dino.reset();
-      scores.reset();
-
-      playerDead = false;
-    } else {
-      ground.updateGround();
-      obstacles.update(deltaTime);
-      dino.update(deltaTime, obstacles.obstacles);
-      clouds.updateClouds(deltaTime);
-      scores.update();
+int main(int argc, char* argv[]) {
+    // Initialize SDL subsystems
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
+        std::cout << "SDL could not initialize! SDL Error: " << SDL_GetError() << std::endl;
+        return -1;
     }
-  }
-
-  void drawTo(sf::RenderWindow& window) {
-    if (playerDead == true) {
-      clouds.drawTo(window);
-      window.draw(ground.groundSprite);
-      obstacles.drawTo(window);
-      window.draw(scores.scoresText);
-      window.draw(scores.previousScoreText);
-      window.draw(scores.HIText);
-      window.draw(dino.dino);
-      window.draw(gameOverText);
-      window.draw(restartButton.restartButtonSprite);
-    } else {
-      clouds.drawTo(window);
-      window.draw(ground.groundSprite);
-      obstacles.drawTo(window);
-      window.draw(scores.scoresText);
-      window.draw(scores.previousScoreText);
-      window.draw(scores.HIText);
-      window.draw(dino.dino);
+    
+    // Initialize SDL_image
+    int imgFlags = IMG_INIT_PNG;
+    if (!(IMG_Init(imgFlags) & imgFlags)) {
+        std::cout << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << std::endl;
+        return -1;
     }
-  }
-};
-
-int main() {
-  sf::RenderWindow window(sf::VideoMode(windowSize_x, windowSize_y), "Dino");
-
-  GameState gameState;
-
-  sf::Event event;
-  sf::Time deltaTime;
-  sf::Clock deltaTimeClock;
-
-  while (window.isOpen()) {
-    while (window.pollEvent(event)) {
-      if (event.type == sf::Event::Closed) window.close();
-      gameState.setMousePos(sf::Mouse::getPosition(window));
+    
+    // Initialize SDL_ttf
+    if (TTF_Init() == -1) {
+        std::cout << "SDL_ttf could not initialize! SDL_ttf Error: " << TTF_GetError() << std::endl;
+        return -1;
     }
-    deltaTime = deltaTimeClock.restart();
-
-    gameState.update(deltaTime);
-
-    window.clear(sf::Color::White);
-    gameState.drawTo(window);
-    window.display();
-  }
+    
+    // Initialize SDL_mixer
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+        std::cout << "SDL_mixer could not initialize! SDL_mixer Error: " << Mix_GetError() << std::endl;
+        return -1;
+    }
+    
+    // Create window
+    SDL_Window* window = SDL_CreateWindow("Dino Game", 
+                                         SDL_WINDOWPOS_UNDEFINED, 
+                                         SDL_WINDOWPOS_UNDEFINED, 
+                                         windowSize_x, 
+                                         windowSize_y, 
+                                         SDL_WINDOW_SHOWN);
+    if (!window) {
+        std::cout << "Window could not be created! SDL Error: " << SDL_GetError() << std::endl;
+        return -1;
+    }
+    
+    // Create renderer
+    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    if (!renderer) {
+        std::cout << "Renderer could not be created! SDL Error: " << SDL_GetError() << std::endl;
+        return -1;
+    }
+    
+    // Initialize game state
+    GameState gameState(renderer);
+    
+    // Game loop variables
+    bool quit = false;
+    SDL_Event e;
+    Uint32 lastFrameTime = SDL_GetTicks();
+    
+    // Game loop
+    while (!quit) {
+        // Handle events
+        while (SDL_PollEvent(&e) != 0) {
+            if (e.type == SDL_QUIT) {
+                quit = true;
+            }
+            gameState.handleEvents(e);
+        }
+        
+        // Get current time
+        Uint32 currentFrameTime = SDL_GetTicks();
+        
+        // Update game state
+        gameState.update(currentFrameTime);
+        
+        // Render the game
+        gameState.render(renderer);
+        
+        // Cap frame rate to ~60 FPS
+        if (currentFrameTime - lastFrameTime < 16) {
+            SDL_Delay(16 - (currentFrameTime - lastFrameTime));
+        }
+        lastFrameTime = currentFrameTime;
+    }
+    
+    // Clean up
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    
+    // Quit SDL subsystems
+    Mix_Quit();
+    TTF_Quit();
+    IMG_Quit();
+    SDL_Quit();
+    
+    return 0;
 }

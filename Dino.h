@@ -1,28 +1,36 @@
 #pragma once
-#include <SFML/Graphics.hpp>
+#include <SDL2/SDL.h>
 #include <array>
 #include <iostream>
+#include "TextureManager.h"
 #include "SoundManager.h"
 #include "Obstacles.h"
+#include "Constants.h"
 
-extern bool playerDead;
-extern float windowSize_y;
+constexpr int FRAME_WIDTH = 90;
+constexpr int FRAME_HEIGHT = 95;
 
-// detect collision with cactus (obstcle)
 class Dino {
 public:
-     sf::Sprite dino{};
-     sf::Vector2f dinoPos{0.f, 0.f};
-     sf::Vector2f dinoMotion{0.f, 0.f};
-     sf::Texture dinoTex;
-     sf::FloatRect dinoBounds;
-     Sound sound;
-     std::array<sf::IntRect, 6> frames;
-     sf::Time timeTracker;
-     int animationCounter{0};
-
-     Dino();
-     void update(sf::Time& deltaTime, std::vector<Obstacle>& obstacles);
-     void walk();
-     void reset();
+    SDL_Texture* dinoTexture;
+    SDL_Rect srcRect;  // Source rectangle for sprite sheet
+    SDL_Rect destRect; // Destination rectangle for rendering
+    SDL_Rect collisionRect; // Collision box
+    
+    std::array<SDL_Rect, 6> frames;  // Animation frames
+    int animationCounter;
+    
+    float posY;        // Y position
+    float velocityY;   // Vertical velocity for jump physics
+    
+    Sound* sound;      // Sound manager
+    Uint32 deathTime;  // Time when player died
+    
+    Dino(SDL_Renderer* renderer, Sound* soundManager);
+    ~Dino();
+    
+    void update(Uint32 currentTime, std::vector<Obstacle>& obstacles);
+    void render(SDL_Renderer* renderer);
+    void walk();
+    void reset();
 };

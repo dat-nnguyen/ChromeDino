@@ -1,5 +1,6 @@
 #pragma once
 
+// Window constants
 extern float windowSize_x;
 extern float windowSize_y;
 extern float groundOffset;

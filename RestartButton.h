@@ -1,14 +1,15 @@
 #pragma once
-#include <SFML/Graphics.hpp>
-#include "Constants.h"  // for windowSize_x, windowSize_y
+#include <SDL2/SDL.h>
+#include "TextureManager.h"
+#include "Constants.h"
 
 class RestartButton {
 public:
-    sf::Sprite restartButtonSprite;
-    sf::FloatRect restartButtonSpriteBounds;
-    sf::Texture restartButtonTexture;
-    sf::Vector2f mousePos;
-    bool checkPressed{false};
-
-    RestartButton();
+    SDL_Texture* buttonTexture;
+    SDL_Rect srcRect;
+    SDL_Rect destRect;
+    
+    RestartButton(SDL_Renderer* renderer);
+    ~RestartButton();
+    bool isClicked(int mouseX, int mouseY);
 };
