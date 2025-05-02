@@ -6,6 +6,7 @@
 
 class Sound {
 public:
+    // Sound effects
     Mix_Chunk* dieSound;
     Mix_Chunk* jumpSound;
     Mix_Chunk* pointSound;

@@ -1,9 +1,11 @@
 #include "Dino.h"
+#include "Obstacles.h"
+#include <SDL2/SDL_image.h>
 
 Dino::Dino(SDL_Renderer* renderer, Sound* soundManager) 
     : animationCounter(0), posY(windowSize_y - 150.0f), velocityY(0), sound(soundManager), deathTime(0) {
     
-    dinoTexture = TextureManager::LoadTexture("assets/Images/PlayerSpriteSheet.png", renderer);
+    dinoTexture = IMG_LoadTexture(renderer, "assets/Images/PlayerSpriteSheet.png");
     
     if (dinoTexture) {
         // Set up animation frames from sprite sheet
@@ -37,68 +39,67 @@ Dino::~Dino() {
 }
 
 void Dino::update(Uint32 currentTime, std::vector<Obstacle>& obstacles) {
-    // Update vertical position and collision box
-    destRect.y = static_cast<int>(posY);
-    collisionRect.x = destRect.x;
-    collisionRect.y = destRect.y;
-    bool hasPlayedDeathSound = false;
-    // Check collision
-    for (auto& obs : obstacles) {
-        SDL_Rect result;
-        if (SDL_IntersectRect(&collisionRect, &obs.collisionRect, &result)) {
-            if (!playerDead) {
-                playerDead = true;
-                deathTime = currentTime;
-                hasPlayedDeathSound = false;
-            }
-            break;
-        }
+  // Update vertical position and collision box
+  destRect.y = static_cast<int>(posY);
+  collisionRect.x = destRect.x;
+  collisionRect.y = destRect.y;
+  bool hasPlayedDeathSound = false;
+  // Check collision
+  for (auto& obs : obstacles) {
+      SDL_Rect result;
+      if (SDL_IntersectRect(&collisionRect, &obs.collisionRect, &result)) {
+          if (!playerDead) {
+              playerDead = true;
+              deathTime = currentTime;
+              hasPlayedDeathSound = false;
+          }
+          break;
+      }
+  }
+
+  if (!playerDead) {
+      walk();  // Handle walking animation
+
+      const Uint8* state = SDL_GetKeyboardState(NULL);
+
+      // Handle jump input
+      bool onGround = posY >= windowSize_y - 150.0f;
+      bool jumping = state[SDL_SCANCODE_SPACE];
+
+      if (jumping && onGround) {
+        animationCounter = 0;
+        velocityY = JUMP_VELOCITY;
+        srcRect = frames[1]; // Jump frame
+        sound->playJumpSound();
     }
+    
+      // Apply gravity
+    velocityY += GRAVITY;
 
-    if (!playerDead) {
-        walk();  // Handle walking animation
+      // Apply velocity
+      posY += velocityY;
 
-        const Uint8* state = SDL_GetKeyboardState(NULL);
+      // Clamp to ground
+      if (posY >= windowSize_y - 150.0f) {
+          posY = windowSize_y - 150.0f;
+          velocityY = 0.0f;
+      }
 
-        // Handle jump input
-        bool onGround = posY >= windowSize_y - 150.0f;
-        bool jumping = state[SDL_SCANCODE_SPACE];
+      // Choose animation frame
+      srcRect = (posY < windowSize_y - 150.0f) ? frames[1] : srcRect;
 
-        if (jumping && onGround) {
-            animationCounter = 0;
-            velocityY = -16.0f;
-            velocityY += 1.2f;
-            srcRect = frames[1]; // Jump frame
-            sound->playJumpSound();
-        }
+  } else {
+      // Handle death state
+      velocityY = 0.0f;
+      srcRect = frames[3]; // Death frame
 
-        // Apply gravity
-        velocityY += (velocityY < 0 && jumping) ? 0.8f : 1.5f;
-
-
-        // Apply velocity
-        posY += velocityY;
-
-        // Clamp to ground
-        if (posY >= windowSize_y - 150.0f) {
-            posY = windowSize_y - 150.0f;
-            velocityY = 0.0f;
-        }
-
-        // Choose animation frame
-        srcRect = (posY < windowSize_y - 150.0f) ? frames[1] : srcRect;
-
-    } else {
-        // Handle death state
-        velocityY = 0.0f;
-        srcRect = frames[3]; // Death frame
-
-        if (!hasPlayedDeathSound && currentTime - deathTime < 170) {
-            sound->playDieSound();
-            hasPlayedDeathSound = true;
-        }
-    }
+      if (!hasPlayedDeathSound && currentTime - deathTime < 170) {
+          sound->playDieSound();
+          hasPlayedDeathSound = true;
+      }
+  }
 }
+
 
 void Dino::walk() {
     for (int i = 0; i < frames.size() - 3; i++) {
@@ -115,11 +116,12 @@ void Dino::walk() {
 }
 
 void Dino::render(SDL_Renderer* renderer) {
-    TextureManager::Draw(dinoTexture, srcRect, destRect, renderer);
+    SDL_RenderCopy(renderer, dinoTexture, &srcRect, &destRect);
 }
 
 void Dino::reset() {
-    velocityY = 0;
-    posY = windowSize_y - 150.0f;
-    srcRect = frames[0];
+  velocityY = 0;
+  posY = groundOffset;
+  srcRect = frames[0];
 }
+

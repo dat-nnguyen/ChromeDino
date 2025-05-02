@@ -1,15 +1,22 @@
-#pragma once
+#ifndef RESTARTBUTTON_H
+#define RESTARTBUTTON_H
+
 #include <SDL2/SDL.h>
-#include "TextureManager.h"
-#include "Constants.h"
+#include <SDL2/SDL_image.h>
 
 class RestartButton {
 public:
-    SDL_Texture* buttonTexture;
-    SDL_Rect srcRect;
-    SDL_Rect destRect;
-    
-    RestartButton(SDL_Renderer* renderer);
+    explicit RestartButton(SDL_Renderer* renderer);
     ~RestartButton();
-    bool isClicked(int mouseX, int mouseY);
+    void render(SDL_Renderer* renderer) const;
+    bool isClicked(int x, int y) const;
+    void show(bool value);
+    void setVisible(bool cond);
+    bool visible;
+
+private:
+    SDL_Texture* texture;
+    SDL_Rect destRect;
 };
+
+#endif

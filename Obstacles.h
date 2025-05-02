@@ -4,15 +4,14 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-#include "TextureManager.h"
 #include "Constants.h"
 
 class Obstacle {
 public:
     SDL_Texture* texture;
-    SDL_Rect srcRect;
-    SDL_Rect destRect;
-    SDL_Rect collisionRect;
+    SDL_Rect srcRect;      // Source rectangle
+    SDL_Rect destRect;     // Destination rectangle
+    SDL_Rect collisionRect; // Collision box
 
     Obstacle(SDL_Texture* tex, SDL_Renderer* renderer);
 };
@@ -21,9 +20,9 @@ class Obstacles {
 public:
     std::vector<Obstacle> obstacles;
     Uint32 lastSpawnTime;
-    SDL_Texture* obstacleTexture_1;
-    SDL_Texture* obstacleTexture_2;
-    SDL_Texture* obstacleTexture_3;
+    SDL_Texture* obstacleTexture_1; // Small cactus
+    SDL_Texture* obstacleTexture_2; // Medium cactus
+    SDL_Texture* obstacleTexture_3; // Large cactus
     int randomNumber;
 
     Obstacles(SDL_Renderer* renderer);

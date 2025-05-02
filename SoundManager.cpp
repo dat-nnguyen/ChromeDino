@@ -1,7 +1,7 @@
 #include "SoundManager.h"
 
 Sound::Sound() 
-    : dieSound(nullptr), jumpSound(nullptr), pointSound(nullptr) {
+    : dieSound(NULL), jumpSound(NULL), pointSound(NULL) {
     
     dieSound = Mix_LoadWAV("assets/Sounds/Die.wav");
     jumpSound = Mix_LoadWAV("assets/Sounds/Jump.wav");
@@ -32,6 +32,7 @@ void Sound::playDieSound() {
         Mix_PlayChannel(0, dieSound, 0);
     }
 }
+
 void Sound::playJumpSound() {
     if (jumpSound) {
         Mix_PlayChannel(-1, jumpSound, 0);

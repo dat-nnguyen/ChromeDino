@@ -1,15 +1,14 @@
 #pragma once
 #include <SDL2/SDL.h>
-#include "TextureManager.h"
 #include "Constants.h"
 
 class Ground {
 public:
     SDL_Texture* groundTexture;
-    SDL_Rect srcRect;
-    SDL_Rect destRect;
-    int textureWidth;
-    int offset;
+    SDL_Rect srcRect;  // Source rectangle for ground texture
+    SDL_Rect destRect; // Destination rectangle for rendering
+    int textureWidth;  // Total width of ground texture
+    int offset;        // Current offset for scrolling
 
     Ground(SDL_Renderer* renderer);
     ~Ground();

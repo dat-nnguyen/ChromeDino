@@ -1,4 +1,5 @@
 #include "Obstacles.h"
+#include <SDL2/SDL_image.h>
 
 Obstacle::Obstacle(SDL_Texture* tex, SDL_Renderer* renderer) : texture(tex) {
     // Configure the obstacle's source rectangle (entire texture)
@@ -23,20 +24,9 @@ Obstacles::Obstacles(SDL_Renderer* renderer) : lastSpawnTime(0) {
     // Initialize random seed
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
     
-    obstacleTexture_1 = TextureManager::LoadTexture("assets/Images/Cactus1.png", renderer);
-    if (obstacleTexture_1) {
-        std::cout << "Loaded cactus Image 1" << std::endl;
-    }
-    
-    obstacleTexture_2 = TextureManager::LoadTexture("assets/Images/Cactus2.png", renderer);
-    if (obstacleTexture_2) {
-        std::cout << "Loaded cactus Image 2" << std::endl;
-    }
-    
-    obstacleTexture_3 = TextureManager::LoadTexture("assets/Images/Cactus3.png", renderer);
-    if (obstacleTexture_3) {
-        std::cout << "Loaded cactus Image 3" << std::endl;
-    }
+    obstacleTexture_1 = IMG_LoadTexture(renderer, "assets/Images/Cactus1.png");
+    obstacleTexture_2 = IMG_LoadTexture(renderer, "assets/Images/Cactus2.png");
+    obstacleTexture_3 = IMG_LoadTexture(renderer, "assets/Images/Cactus3.png");
 }
 
 Obstacles::~Obstacles() {
@@ -51,14 +41,14 @@ void Obstacles::update(Uint32 currentTime) {
     
     // Increased minimum time between obstacles to make the game more fair
     // Also scales with game speed to maintain challenge balance
-    if (elapsedTime > (1000 + gameSpeed * 150)) {  // Increased from 500 + gameSpeed * 125
+    if (elapsedTime > (1000 + gameSpeed * 150)) {  
         randomNumber = (std::rand() % 100);
         
         if (randomNumber < 40) {  // 40% chance for small cactus
             obstacles.emplace_back(obstacleTexture_1, nullptr);
         } else if (randomNumber < 70) {  // 30% chance for medium cactus
             obstacles.emplace_back(obstacleTexture_2, nullptr);
-        } else {  // 30% chance for triple cactus
+        } else {  // 30% chance for large/triple cactus
             obstacles.emplace_back(obstacleTexture_3, nullptr);
         }
         
@@ -67,7 +57,7 @@ void Obstacles::update(Uint32 currentTime) {
     
     if (!playerDead) {
         for (int i = 0; i < obstacles.size(); i++) {
-            // Update collision rect position
+            // Update obstacle position and collision box
             obstacles[i].destRect.x -= gameSpeed;
             obstacles[i].collisionRect = obstacles[i].destRect;
             obstacles[i].collisionRect.w -= 10;
@@ -83,7 +73,7 @@ void Obstacles::update(Uint32 currentTime) {
 
 void Obstacles::render(SDL_Renderer* renderer) {
     for (auto& obstacle : obstacles) {
-        TextureManager::Draw(obstacle.texture, obstacle.srcRect, obstacle.destRect, renderer);
+        SDL_RenderCopy(renderer, obstacle.texture, &obstacle.srcRect, &obstacle.destRect);
     }
 }
 

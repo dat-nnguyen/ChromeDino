@@ -2,10 +2,12 @@
 #include <SDL2/SDL.h>
 #include <array>
 #include <iostream>
-#include "TextureManager.h"
+#include <vector>
 #include "SoundManager.h"
-#include "Obstacles.h"
 #include "Constants.h"
+
+// Forward declaration to avoid circular dependencies
+class Obstacle;
 
 constexpr int FRAME_WIDTH = 90;
 constexpr int FRAME_HEIGHT = 95;
@@ -13,8 +15,8 @@ constexpr int FRAME_HEIGHT = 95;
 class Dino {
 public:
     SDL_Texture* dinoTexture;
-    SDL_Rect srcRect;  // Source rectangle for sprite sheet
-    SDL_Rect destRect; // Destination rectangle for rendering
+    SDL_Rect srcRect;      // Source rectangle for sprite sheet
+    SDL_Rect destRect;     // Destination rectangle for rendering
     SDL_Rect collisionRect; // Collision box
     
     std::array<SDL_Rect, 6> frames;  // Animation frames

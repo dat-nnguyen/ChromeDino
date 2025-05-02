@@ -1,7 +1,8 @@
 #include "Ground.h"
+#include <SDL2/SDL_image.h>
 
 Ground::Ground(SDL_Renderer* renderer) : offset(0) {
-    groundTexture = TextureManager::LoadTexture("assets/Images/GroundImage.png", renderer);
+    groundTexture = IMG_LoadTexture(renderer, "assets/Images/GroundImage.png");
     
     if (groundTexture) {
         SDL_QueryTexture(groundTexture, NULL, NULL, &textureWidth, &srcRect.h);
@@ -33,7 +34,7 @@ void Ground::updateGround() {
 }
 
 void Ground::render(SDL_Renderer* renderer) {
-    TextureManager::Draw(groundTexture, srcRect, destRect, renderer);
+    SDL_RenderCopy(renderer, groundTexture, &srcRect, &destRect);
 }
 
 void Ground::reset() {
