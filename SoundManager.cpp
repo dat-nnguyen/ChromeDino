@@ -26,10 +26,12 @@ Sound::~Sound() {
 
 void Sound::playDieSound() {
     if (dieSound) {
-        Mix_PlayChannel(-1, dieSound, 0);
+        // Stop any previously playing instances of the sound
+        Mix_HaltChannel(-1);
+        // Play sound on channel 0 (specific channel) so we can control it
+        Mix_PlayChannel(0, dieSound, 0);
     }
 }
-
 void Sound::playJumpSound() {
     if (jumpSound) {
         Mix_PlayChannel(-1, jumpSound, 0);

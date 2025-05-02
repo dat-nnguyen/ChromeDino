@@ -33,8 +33,8 @@ Clouds::~Clouds() {
 }
 
 void Clouds::updateClouds(Uint32 currentTime) {
-    // Spawn new clouds every 8 seconds
-    if (currentTime - lastCloudTime > 8000) {
+    // Spawn new clouds every 8 seconds, but not when the player is dead
+    if (!playerDead && (currentTime - lastCloudTime > 8000)) {
         int texW, texH;
         SDL_QueryTexture(cloudTexture, NULL, NULL, &texW, &texH);
         
@@ -53,17 +53,15 @@ void Clouds::updateClouds(Uint32 currentTime) {
         lastCloudTime = currentTime;
     }
     
-    // Move clouds and remove when off screen
-    for (int i = 0; i < cloudPositions.size(); i++) {
-        if (!playerDead) {
+    // Move clouds and remove when off screen - but only when the player is alive
+    if (!playerDead) {
+        for (int i = 0; i < cloudPositions.size(); i++) {
             cloudPositions[i].x -= 1;
-        } else {
-            cloudPositions[i].x -= 0.5;
-        }
-        
-        if (cloudPositions[i].x < -cloudPositions[i].w) {
-            cloudPositions.erase(cloudPositions.begin() + i);
-            i--; // adjust index after erasing
+            
+            if (cloudPositions[i].x < -cloudPositions[i].w) {
+                cloudPositions.erase(cloudPositions.begin() + i);
+                i--; // adjust index after erasing
+            }
         }
     }
 }

@@ -37,56 +37,65 @@ Dino::~Dino() {
 }
 
 void Dino::update(Uint32 currentTime, std::vector<Obstacle>& obstacles) {
-    // Update position
-    destRect.y = posY;
-    
-    // Update collision rectangle
+    // Update vertical position and collision box
+    destRect.y = static_cast<int>(posY);
     collisionRect.x = destRect.x;
     collisionRect.y = destRect.y;
-    
-    // Check for collisions
+    bool hasPlayedDeathSound = false;
+    // Check collision
     for (auto& obs : obstacles) {
         SDL_Rect result;
         if (SDL_IntersectRect(&collisionRect, &obs.collisionRect, &result)) {
-            playerDead = true;
-            deathTime = currentTime;
+            if (!playerDead) {
+                playerDead = true;
+                deathTime = currentTime;
+                hasPlayedDeathSound = false;
+            }
+            break;
         }
     }
-    
+
     if (!playerDead) {
-        walk();
-        
-        // Check for jump input
+        walk();  // Handle walking animation
+
         const Uint8* state = SDL_GetKeyboardState(NULL);
-        if (state[SDL_SCANCODE_SPACE] && posY >= windowSize_y - 150.0f) {
+
+        // Handle jump input
+        bool onGround = posY >= windowSize_y - 150.0f;
+        bool jumping = state[SDL_SCANCODE_SPACE];
+
+        if (jumping && onGround) {
             animationCounter = 0;
-            velocityY = -20.0f;
-            srcRect = frames[1];
+            velocityY = -16.0f;
+            velocityY += 1.2f;
+            srcRect = frames[1]; // Jump frame
             sound->playJumpSound();
         }
-        
-        // Apply gravity if in air
-        if (posY < windowSize_y - 150.0f) {
-            velocityY += 1.0f;
-            srcRect = frames[1];
-        }
-        
+
+        // Apply gravity
+        velocityY += (velocityY < 0 && jumping) ? 0.8f : 1.5f;
+
+
         // Apply velocity
         posY += velocityY;
-        
-        // Check for ground collision
-        if (posY > windowSize_y - 150.0f) {
+
+        // Clamp to ground
+        if (posY >= windowSize_y - 150.0f) {
             posY = windowSize_y - 150.0f;
             velocityY = 0.0f;
         }
+
+        // Choose animation frame
+        srcRect = (posY < windowSize_y - 150.0f) ? frames[1] : srcRect;
+
     } else {
-        // Character is dead
+        // Handle death state
         velocityY = 0.0f;
-        srcRect = frames[3];
-        
-        // Play death sound once
-        if (currentTime - deathTime < 170) {
+        srcRect = frames[3]; // Death frame
+
+        if (!hasPlayedDeathSound && currentTime - deathTime < 170) {
             sound->playDieSound();
+            hasPlayedDeathSound = true;
         }
     }
 }

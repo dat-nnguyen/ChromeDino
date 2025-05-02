@@ -46,15 +46,20 @@ Obstacles::~Obstacles() {
 }
 
 void Obstacles::update(Uint32 currentTime) {
-    // Spawn new obstacles periodically
+    // Spawn new obstacles periodically, with better spacing
     Uint32 elapsedTime = currentTime - lastSpawnTime;
-    if (elapsedTime > (500 + gameSpeed * 125)) {  // 0.5 seconds + gameSpeed adjustment
-        randomNumber = (std::rand() % 3) + 1;
+    
+    // Increased minimum time between obstacles to make the game more fair
+    // Also scales with game speed to maintain challenge balance
+    if (elapsedTime > (1000 + gameSpeed * 150)) {  // Increased from 500 + gameSpeed * 125
+        randomNumber = (std::rand() % 100);
         
-        if (randomNumber == 1) {
+        if (randomNumber < 40) {  // 40% chance for small cactus
             obstacles.emplace_back(obstacleTexture_1, nullptr);
-        } else if (randomNumber == 2 || randomNumber == 3) {
+        } else if (randomNumber < 70) {  // 30% chance for medium cactus
             obstacles.emplace_back(obstacleTexture_2, nullptr);
+        } else {  // 30% chance for triple cactus
+            obstacles.emplace_back(obstacleTexture_3, nullptr);
         }
         
         lastSpawnTime = currentTime;
