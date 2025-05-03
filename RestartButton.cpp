@@ -1,6 +1,6 @@
 #include "RestartButton.h"
 
-RestartButton::RestartButton(SDL_Renderer* renderer) {
+RestartButton::RestartButton(SDL_Renderer* renderer){
     SDL_Surface* surface = IMG_Load("assets/Images/RestartButton.png");
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
@@ -9,7 +9,7 @@ RestartButton::RestartButton(SDL_Renderer* renderer) {
     visible = false;
 }
 
-RestartButton::~RestartButton() {
+RestartButton::~RestartButton(){
     SDL_DestroyTexture(texture);
 }
 

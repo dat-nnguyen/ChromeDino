@@ -1,7 +1,7 @@
 #include "Obstacles.h"
 #include <SDL2/SDL_image.h>
 
-Obstacle::Obstacle(SDL_Texture* tex, SDL_Renderer* renderer) : texture(tex) {
+Obstacle::Obstacle(SDL_Texture* tex, SDL_Renderer* renderer):texture(tex) {
     // Configure the obstacle's source rectangle (entire texture)
     srcRect.x = 0;
     srcRect.y = 0;
@@ -22,7 +22,7 @@ Obstacles::Obstacles(SDL_Renderer* renderer) : lastSpawnTime(0) {
     obstacles.reserve(5);
     
     // Initialize random seed
-    std::srand(static_cast<unsigned int>(std::time(nullptr)));
+    std::srand(static_cast<unsigned int>(std::time(NULL)));
     
     obstacleTexture_1 = IMG_LoadTexture(renderer, "assets/Images/Cactus1.png");
     obstacleTexture_2 = IMG_LoadTexture(renderer, "assets/Images/Cactus2.png");
