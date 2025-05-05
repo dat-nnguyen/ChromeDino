@@ -4,4 +4,4 @@ g++ -std=c++17 main.cpp Dino.cpp Ground.cpp Obstacles.cpp Scores.cpp RestartButt
 
 ./Dino
 
-DOCUMENT FORE MORE INFORMATION: https://docs.google.com/document/d/1bC6K1J0zYZjNPsrhO7ZRuEAweFvu_ibIDf7UF3arOdU/edit?usp=sharing
+DOCUMENT FOR MORE INFORMATION: https://docs.google.com/document/d/1bC6K1J0zYZjNPsrhO7ZRuEAweFvu_ibIDf7UF3arOdU/edit?usp=sharing
