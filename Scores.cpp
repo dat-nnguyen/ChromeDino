@@ -1,21 +1,20 @@
 #include "Scores.h"
 #include "Constants.h"
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
+#include <iostream>
 
+using namespace std;
 Scores::Scores(SDL_Renderer* renderer, Sound* soundManager) 
-    : font(nullptr), 
+    : font(NULL), 
       sound(soundManager),
       scores(0), 
-      previousScore(0), 
       scoresIndex(0), 
       scoresDiff(0), 
       scoresInital(0) {
     
     // Initialize TTF
     font = TTF_OpenFont("assets/Fonts/Font.ttf", 24);
-    if (!font) {
-        std::cout << "Failed to load font: " << TTF_GetError() << std::endl;
-    }
-    
     // Initialize score textures
     update(renderer);
 }
@@ -26,7 +25,7 @@ Scores::~Scores() {
 
 void Scores::update(SDL_Renderer* renderer) {
     if (!playerDead) {
-        // Increment score counter
+        // Increase score counter
         scoresIndex++;
         
         // Update score every 5 frames
@@ -51,7 +50,7 @@ void Scores::update(SDL_Renderer* renderer) {
     SDL_Color textColor = {83, 83, 83, 255}; // Dark gray color
     
     // Create current score texture
-    SDL_Surface* scoreSurface = TTF_RenderText_Solid(font, std::to_string(scores).c_str(), textColor);
+    SDL_Surface* scoreSurface = TTF_RenderText_Solid(font, to_string(scores).c_str(), textColor);
     if (scoreSurface) {
         scoreTexture = SDL_CreateTextureFromSurface(renderer, scoreSurface);
         
@@ -64,51 +63,32 @@ void Scores::update(SDL_Renderer* renderer) {
         SDL_FreeSurface(scoreSurface);
     }
     
-    // Update high score if necessary
-    if (scores > previousScore) {
-        previousScore = scores;
-    }
-    
-    // Create "HI" text
-    SDL_Surface* hiTextSurface = TTF_RenderText_Solid(font, "HI", textColor);
-    if (hiTextSurface) {
-        hiTextTexture = SDL_CreateTextureFromSurface(renderer, hiTextSurface);
+    // Create "SCORE" text
+    SDL_Surface* scoreTextSurface = TTF_RenderText_Solid(font, "SCORE", textColor);
+    if (scoreTextSurface) {
+        scoreTextTexture = SDL_CreateTextureFromSurface(renderer, scoreTextSurface);
         
-        hiTextRect.x = scoreRect.x - hiTextSurface->w - 40;
-        hiTextRect.y = 20;
-        hiTextRect.w = hiTextSurface->w;
-        hiTextRect.h = hiTextSurface->h;
+        scoreTextRect.x = scoreRect.x - scoreTextSurface->w - 30;
+        scoreTextRect.y = 20;
+        scoreTextRect.w = scoreTextSurface->w;
+        scoreTextRect.h = scoreTextSurface->h;
         
-        SDL_FreeSurface(hiTextSurface);
-    }
-    
-    // Create previous score texture
-    SDL_Surface* prevScoreSurface = TTF_RenderText_Solid(font, std::to_string(previousScore).c_str(), textColor);
-    if (prevScoreSurface) {
-        prevScoreTexture = SDL_CreateTextureFromSurface(renderer, prevScoreSurface);
-        
-        prevScoreRect.x = hiTextRect.x + hiTextRect.w + 10;
-        prevScoreRect.y = 20;
-        prevScoreRect.w = prevScoreSurface->w;
-        prevScoreRect.h = prevScoreSurface->h;
-        
-        SDL_FreeSurface(prevScoreSurface);
-    }
+        SDL_FreeSurface(scoreTextSurface);
+    }   
 }
 
 
 
 void Scores::render(SDL_Renderer* renderer) {
     // Render current score
-    SDL_RenderCopy(renderer, scoreTexture, nullptr, &scoreRect);
-    
+    SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);    
     // Render high score label and value
-    SDL_RenderCopy(renderer, hiTextTexture, nullptr, &hiTextRect);
-    SDL_RenderCopy(renderer, prevScoreTexture, nullptr, &prevScoreRect);
+    SDL_RenderCopy(renderer, scoreTextTexture, NULL, &scoreTextRect);
+
 }
 
 void Scores::reset(SDL_Renderer* renderer) {
-    // Reset current score, but keep high score
+    // Reset current score
     scores = 0;
     scoresIndex = 0;
     scoresDiff = 0;

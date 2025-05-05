@@ -1,5 +1,7 @@
 #include "Ground.h"
 #include <SDL2/SDL_image.h>
+#include <iostream>
+#include "Constants.h"
 
 Ground::Ground(SDL_Renderer* renderer) : offset(0) {
     groundTexture = IMG_LoadTexture(renderer, "assets/Images/GroundImage.png");

@@ -1,6 +1,8 @@
 #include "Obstacles.h"
 #include <SDL2/SDL_image.h>
-
+#include <iostream>
+#include <algorithm>
+using namespace std;
 Obstacle::Obstacle(SDL_Texture* tex, SDL_Renderer* renderer):texture(tex) {
     // Configure the obstacle's source rectangle (entire texture)
     srcRect.x = 0;
@@ -22,7 +24,7 @@ Obstacles::Obstacles(SDL_Renderer* renderer) : lastSpawnTime(0) {
     obstacles.reserve(5);
     
     // Initialize random seed
-    std::srand(static_cast<unsigned int>(std::time(NULL)));
+    srand(static_cast<unsigned int>(time(NULL)));
     
     obstacleTexture_1 = IMG_LoadTexture(renderer, "assets/Images/Cactus1.png");
     obstacleTexture_2 = IMG_LoadTexture(renderer, "assets/Images/Cactus2.png");
@@ -35,11 +37,9 @@ Obstacles::~Obstacles() {
     SDL_DestroyTexture(obstacleTexture_3);
 }
 
-void Obstacles::update(Uint32 currentTime) {
-    // Spawn new obstacles periodically, with better spacing
+void Obstacles::update(Uint32 currentTime){
     Uint32 elapsedTime = currentTime - lastSpawnTime;
-    
-    // Increased minimum time between obstacles to make the game more fair
+
     // Also scales with game speed to maintain challenge balance
     if (elapsedTime > (1000 + gameSpeed * 150)) {  
         randomNumber = (std::rand() % 100);
@@ -48,7 +48,7 @@ void Obstacles::update(Uint32 currentTime) {
             obstacles.emplace_back(obstacleTexture_1, nullptr);
         } else if (randomNumber < 70) {  // 30% chance for medium cactus
             obstacles.emplace_back(obstacleTexture_2, nullptr);
-        } else {  // 30% chance for large/triple cactus
+        } else {  // 30% chance for large cactus
             obstacles.emplace_back(obstacleTexture_3, nullptr);
         }
         

@@ -1,7 +1,10 @@
 #include "Dino.h"
 #include "Obstacles.h"
 #include <SDL2/SDL_image.h>
-
+#include <iostream>
+#include "Constants.h"
+#include "SoundManager.h"
+using namespace std;
 Dino::Dino(SDL_Renderer* renderer, Sound* soundManager) 
     : animationCounter(0), posY(windowSize_y - 150.0f), velocityY(0), sound(soundManager), deathTime(0) {
     
@@ -29,8 +32,6 @@ Dino::Dino(SDL_Renderer* renderer, Sound* soundManager)
         collisionRect = destRect;
         collisionRect.h -= 15;
         collisionRect.w -= 10;
-    } else {
-        std::cout << "Error loading the PlayerSprite texture" << std::endl;
     }
 }
 
@@ -58,11 +59,11 @@ void Dino::update(Uint32 currentTime, std::vector<Obstacle>& obstacles) {
   }
 
   if (!playerDead) {
-      walk();  // Handle walking animation
+      walk();  //  walking animation
 
       const Uint8* state = SDL_GetKeyboardState(NULL);
 
-      // Handle jump input
+      // jump input
       bool onGround = posY >= windowSize_y - 150.0f;
       bool jumping = state[SDL_SCANCODE_SPACE];
 

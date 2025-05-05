@@ -10,7 +10,7 @@
 #include "Obstacles.h"
 #include "Scores.h"
 #include "SoundManager.h"
-
+using namespace std;
 // Global variables
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
@@ -23,48 +23,31 @@ Scores* scores = NULL;
 bool init() {
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
-        std::cout << "SDL could not initialize! SDL Error: " << SDL_GetError() << std::endl;
+        cout << "SDL could not initialize! SDL Error: " << SDL_GetError() << endl;
         return false;
     }
     
     // Initialize SDL_image
     int imgFlags = IMG_INIT_PNG;
     if (!(IMG_Init(imgFlags) & imgFlags)) {
-        std::cout << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << std::endl;
+        cout << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << endl;
         return false;
     }
     
     // Initialize SDL_ttf
     if (TTF_Init() == -1) {
-        std::cout << "SDL_ttf could not initialize! SDL_ttf Error: " << TTF_GetError() << std::endl;
+        cout << "SDL_ttf could not initialize! SDL_ttf Error: " << TTF_GetError() << endl;
         return false;
     }
     
     // Initialize SDL_mixer
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
-        std::cout << "SDL_mixer could not initialize! SDL_mixer Error: " << Mix_GetError() << std::endl;
+        cout << "SDL_mixer could not initialize! SDL_mixer Error: " << Mix_GetError() << endl;
         return false;
     }
     
-    // Create window
-    window = SDL_CreateWindow("Dino Game", 
-                              SDL_WINDOWPOS_UNDEFINED, 
-                              SDL_WINDOWPOS_UNDEFINED, 
-                              windowSize_x, 
-                              windowSize_y, 
-                              SDL_WINDOW_SHOWN);
-    if (!window) {
-        std::cout << "Window could not be created! SDL Error: " << SDL_GetError() << std::endl;
-        return false;
-    }
-    
-    // Create renderer
+    window = SDL_CreateWindow("Dino Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowSize_x, windowSize_y, SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (!renderer) {
-        std::cout << "Renderer could not be created! SDL Error: " << SDL_GetError() << std::endl;
-        return false;
-    }
-    
     return true;
 }
 
@@ -194,7 +177,7 @@ void cleanup() {
 int main(int argc, char* argv[]) {
     // Initialize SDL
     if (!init()) {
-        return -1;
+         return -1;
     }
     
     // Load game assets
@@ -223,14 +206,12 @@ int main(int argc, char* argv[]) {
         // Render the game
         render();
         
-        // Cap frame rate to ~60 FPS
+        // Cap frame rate to 60 FPS
         if (currentFrameTime - lastFrameTime < 16) {
             SDL_Delay(16 - (currentFrameTime - lastFrameTime));
         }
         lastFrameTime = currentFrameTime;
     }
-    
-    // Clean up
     cleanup();
     
     return 0;

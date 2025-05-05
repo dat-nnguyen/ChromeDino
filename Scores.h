@@ -18,17 +18,15 @@ private:
     
     // Textures for displaying scores
     SDL_Texture* scoreTexture;      // Current score
-    SDL_Texture* prevScoreTexture;  // High score
-    SDL_Texture* hiTextTexture;     // "HI" label
+    //SDL_Texture* prevScoreTexture;  // High score
+    SDL_Texture* scoreTextTexture;     // "Score" label
     
     // Rectangle positions for text rendering
     SDL_Rect scoreRect;
-    SDL_Rect prevScoreRect;
-    SDL_Rect hiTextRect;
+    SDL_Rect scoreTextRect;
 
     Sound* sound;
     int scores;            // Current score
-    int previousScore;     // High score
     int scoresIndex;       // Animation counter
     int scoresDiff;        // Score since last speedup
     int scoresInital;      // Base score for difficulty scaling

@@ -1,21 +1,14 @@
 #include "SoundManager.h"
+#include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_image.h>
+#include <iostream>
 
+using namespace std;
 Sound::Sound() 
-    : dieSound(NULL), jumpSound(NULL), pointSound(NULL) {
-    
+    :   dieSound(NULL), jumpSound(NULL), pointSound(NULL) {
     dieSound = Mix_LoadWAV("assets/Sounds/Die.wav");
     jumpSound = Mix_LoadWAV("assets/Sounds/Jump.wav");
     pointSound = Mix_LoadWAV("assets/Sounds/Point.wav");
-    
-    if (!dieSound) {
-        std::cout << "Failed to load die sound: " << Mix_GetError() << std::endl;
-    }
-    if (!jumpSound) {
-        std::cout << "Failed to load jump sound: " << Mix_GetError() << std::endl;
-    }
-    if (!pointSound) {
-        std::cout << "Failed to load point sound: " << Mix_GetError() << std::endl;
-    }
 }
 
 Sound::~Sound() {
