@@ -6,5 +6,5 @@ int gameSpeed = 4;
 bool playerDead = false;
 
 const float GRAVITY = 0.45f;
-const float JUMP_VELOCITY = -18.0f;  
+const float JUMP_VELOCITY = -17.0f;  
 const int GROUND_Y = 300.0f;            
