@@ -4,7 +4,7 @@
 #include <algorithm>
 using namespace std;
 Obstacle::Obstacle(SDL_Texture* tex, SDL_Renderer* renderer):texture(tex) {
-    // Configure the obstacle's source rectangle (entire texture)
+    // Configure the obstacle's source rectangle
     srcRect.x = 0;
     srcRect.y = 0;
     SDL_QueryTexture(tex, NULL, NULL, &srcRect.w, &srcRect.h);
@@ -15,7 +15,7 @@ Obstacle::Obstacle(SDL_Texture* tex, SDL_Renderer* renderer):texture(tex) {
     destRect.w = srcRect.w;
     destRect.h = srcRect.h;
     
-    // Set up collision rectangle (slightly smaller than visual)
+    // Set up collision rectangle
     collisionRect = destRect;
     collisionRect.w -= 10;
 }
@@ -40,7 +40,7 @@ Obstacles::~Obstacles() {
 void Obstacles::update(Uint32 currentTime){
     Uint32 elapsedTime = currentTime - lastSpawnTime;
 
-    // Also scales with game speed to maintain challenge balance
+    // maintain chance of spawning obstacles
     if (elapsedTime > (1000 + gameSpeed * 150)) {  
         randomNumber = (std::rand() % 100);
         

@@ -18,7 +18,6 @@ private:
     
     // Textures for displaying scores
     SDL_Texture* scoreTexture;      // Current score
-    //SDL_Texture* prevScoreTexture;  // High score
     SDL_Texture* scoreTextTexture;     // "Score" label
     
     // Rectangle positions for text rendering
