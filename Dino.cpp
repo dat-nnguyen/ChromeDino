@@ -28,7 +28,7 @@ Dino::Dino(SDL_Renderer* renderer, Sound* soundManager)
         destRect.w = FRAME_WIDTH;
         destRect.h = FRAME_HEIGHT;
         
-        // Set up collision rectangle (slightly smaller than visual)
+        // Set up collision rectangle 
         collisionRect = destRect;
         collisionRect.h -= 15;
         collisionRect.w -= 10;
