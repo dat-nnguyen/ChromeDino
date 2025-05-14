@@ -4,7 +4,7 @@
 #include <string>
 #include "SoundManager.h"
 
-class Scores {
+class Scores{
 public:
     Scores(SDL_Renderer* renderer, Sound* soundManager);
     ~Scores();

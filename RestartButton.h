@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-class RestartButton {
+class RestartButton{
 public:
     RestartButton(SDL_Renderer* renderer);
     ~RestartButton();

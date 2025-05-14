@@ -5,13 +5,7 @@
 #include <iostream>
 
 using namespace std;
-Scores::Scores(SDL_Renderer* renderer, Sound* soundManager) 
-    : font(NULL), 
-      sound(soundManager),
-      scores(0), 
-      scoresIndex(0), 
-      scoresDiff(0), 
-      scoresInital(0) {
+Scores::Scores(SDL_Renderer* renderer, Sound* soundManager):font(NULL), sound(soundManager),scores(0), scoresIndex(0), scoresDiff(0), scoresInital(0) {
     
     // Initialize TTF
     font = TTF_OpenFont("assets/Fonts/Font.ttf", 24);

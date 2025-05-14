@@ -5,7 +5,7 @@
 #include <vector>
 #include "SoundManager.h"
 #include "Constants.h"
-
+using namespace std;
 // Forward declaration to avoid circular dependencies
 class Obstacle;
 
@@ -19,7 +19,7 @@ public:
     SDL_Rect destRect;     // Destination rectangle for rendering
     SDL_Rect collisionRect; // Collision box
     
-    std::array<SDL_Rect, 6> frames;  // Animation frames
+    array<SDL_Rect, 6> frames;  // Animation frames
     int animationCounter;
     
     float posY;        // Y position
@@ -31,7 +31,7 @@ public:
     Dino(SDL_Renderer* renderer, Sound* soundManager);
     ~Dino();
     
-    void update(Uint32 currentTime, std::vector<Obstacle>& obstacles);
+    void update(Uint32 currentTime, vector<Obstacle>& obstacles);
     void render(SDL_Renderer* renderer);
     void walk();
     void reset();

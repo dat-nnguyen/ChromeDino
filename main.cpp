@@ -20,7 +20,7 @@ Ground* ground = NULL;
 Obstacles* obstacles = NULL;
 Scores* scores = NULL;
 
-bool init() {
+bool init(){
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
         cout << "SDL could not initialize! SDL Error: " << SDL_GetError() << endl;
@@ -51,7 +51,7 @@ bool init() {
     return true;
 }
 
-void loadGame() {
+void loadGame(){
     // Initialize game objects
     soundManager = new Sound();
     dino = new Dino(renderer, soundManager);
@@ -84,7 +84,7 @@ void handleEvents(SDL_Event& event, bool& quit, int& mouseX, int& mouseY, bool& 
     }
 }
 
-void updateGame(Uint32 currentTime, int mouseX, int mouseY, bool& mousePressed) {
+void updateGame(Uint32 currentTime, int mouseX, int mouseY, bool& mousePressed){
     if (playerDead) {
         // Check if restart was clicked
         SDL_Rect restartRect = {static_cast<int>(windowSize_x) / 2 - 36, static_cast<int>(windowSize_y) / 2, 72, 64};
@@ -109,7 +109,7 @@ void updateGame(Uint32 currentTime, int mouseX, int mouseY, bool& mousePressed) 
     }
 }
 
-void render() {
+void render(){
     // Clear screen
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
@@ -155,7 +155,7 @@ void render() {
     SDL_RenderPresent(renderer);
 }
 
-void cleanup() {
+void cleanup(){
     // Free resources
     delete dino;
     delete ground;
@@ -216,3 +216,4 @@ int main(int argc, char* argv[]) {
     
     return 0;
 }
+

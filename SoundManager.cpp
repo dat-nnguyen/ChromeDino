@@ -4,20 +4,19 @@
 #include <iostream>
 
 using namespace std;
-Sound::Sound() 
-    :   dieSound(NULL), jumpSound(NULL), pointSound(NULL) {
+Sound::Sound():dieSound(NULL), jumpSound(NULL), pointSound(NULL){
     dieSound = Mix_LoadWAV("assets/Sounds/Die.wav");
     jumpSound = Mix_LoadWAV("assets/Sounds/Jump.wav");
     pointSound = Mix_LoadWAV("assets/Sounds/Point.wav");
 }
 
-Sound::~Sound() {
+Sound::~Sound(){
     if (dieSound) Mix_FreeChunk(dieSound);
     if (jumpSound) Mix_FreeChunk(jumpSound);
     if (pointSound) Mix_FreeChunk(pointSound);
 }
 
-void Sound::playDieSound() {
+void Sound::playDieSound(){
     if (dieSound) {
         // Stop any previously playing instances of the sound
         Mix_HaltChannel(-1);
@@ -26,13 +25,13 @@ void Sound::playDieSound() {
     }
 }
 
-void Sound::playJumpSound() {
+void Sound::playJumpSound(){
     if (jumpSound) {
         Mix_PlayChannel(-1, jumpSound, 0);
     }
 }
 
-void Sound::playPointSound() {
+void Sound::playPointSound(){
     if (pointSound) {
         Mix_PlayChannel(-1, pointSound, 0);
     }

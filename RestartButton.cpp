@@ -13,19 +13,17 @@ RestartButton::~RestartButton(){
     SDL_DestroyTexture(texture);
 }
 
-void RestartButton::render(SDL_Renderer* renderer) const
-{
+void RestartButton::render(SDL_Renderer* renderer) const{
     if (visible)
         SDL_RenderCopy(renderer, texture, NULL, &destRect);
 }
 
-bool RestartButton::isClicked(const int x, const int y) const
-{
+bool RestartButton::isClicked(const int x, const int y) const{
     return visible &&
         x >= destRect.x && x <= destRect.x + destRect.w &&
         y >= destRect.y && y <= destRect.y + destRect.h;
 }
 
-void RestartButton::show(bool value) {
+void RestartButton::show(bool value){
     visible = value;
 }

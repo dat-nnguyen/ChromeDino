@@ -6,7 +6,7 @@
 #include <ctime>
 #include "Constants.h"
 
-class Obstacle {
+class Obstacle{
 public:
     SDL_Texture* texture;
     SDL_Rect srcRect;      // Source rectangle
@@ -16,7 +16,7 @@ public:
     Obstacle(SDL_Texture* tex, SDL_Renderer* renderer);
 };
 
-class Obstacles {
+class Obstacles{
 public:
     std::vector<Obstacle> obstacles;
     Uint32 lastSpawnTime;

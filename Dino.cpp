@@ -5,11 +5,8 @@
 #include "Constants.h"
 #include "SoundManager.h"
 using namespace std;
-Dino::Dino(SDL_Renderer* renderer, Sound* soundManager) 
-    : animationCounter(0), posY(windowSize_y - 150.0f), velocityY(0), sound(soundManager), deathTime(0) {
-    
+Dino::Dino(SDL_Renderer* renderer, Sound* soundManager):animationCounter(0), posY(windowSize_y - 150.0f), velocityY(0), sound(soundManager), deathTime(0) {
     dinoTexture = IMG_LoadTexture(renderer, "assets/Images/PlayerSpriteSheet.png");
-    
     if (dinoTexture) {
         // Set up animation frames from sprite sheet
         for (size_t i = 0; i < frames.size(); i++) {
@@ -39,7 +36,7 @@ Dino::~Dino() {
     SDL_DestroyTexture(dinoTexture);
 }
 
-void Dino::update(Uint32 currentTime, std::vector<Obstacle>& obstacles) {
+void Dino::update(Uint32 currentTime, vector<Obstacle>& obstacles) {
   // Update vertical position and collision box
   destRect.y = static_cast<int>(posY);
   collisionRect.x = destRect.x;
@@ -73,7 +70,6 @@ void Dino::update(Uint32 currentTime, std::vector<Obstacle>& obstacles) {
         srcRect = frames[1]; // Jump frame
         sound->playJumpSound();
     }
-    
       // Apply gravity
     velocityY += GRAVITY;
 
@@ -104,12 +100,12 @@ void Dino::update(Uint32 currentTime, std::vector<Obstacle>& obstacles) {
 
 void Dino::walk() {
     for (int i = 0; i < frames.size() - 3; i++) {
-        if (animationCounter == (i + 1) * 3) {
+        if (animationCounter == (i + 1)* 5) {
             srcRect = frames[i];
         }
     }
     
-    if (animationCounter >= (frames.size() - 2) * 3) {
+    if (animationCounter >= (frames.size() - 2) * 5) {
         animationCounter = 0;
     }
     

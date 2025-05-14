@@ -4,9 +4,8 @@
 #include <string>
 #include <iostream>
 
-class Sound {
+class Sound{
 public:
-    // Sound effects
     Mix_Chunk* dieSound;
     Mix_Chunk* jumpSound;
     Mix_Chunk* pointSound;
