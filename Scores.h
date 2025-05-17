@@ -25,6 +25,5 @@ private:
     Sound* sound;
     int scores;            // current score
     int scoresIndex;       // animation counter
-    int scoresDiff;        // score since last speedup
     int scoresInital;      // base score
 };

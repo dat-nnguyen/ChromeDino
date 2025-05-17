@@ -5,7 +5,7 @@
 #include <iostream>
 
 using namespace std;
-Scores::Scores(SDL_Renderer* renderer, Sound* soundManager):font(nullptr), sound(soundManager),scores(0), scoresIndex(0), scoresDiff(0), scoresInital(0){
+Scores::Scores(SDL_Renderer* renderer, Sound* soundManager):font(nullptr), sound(soundManager),scores(0), scoresIndex(0), scoresInital(0){
     // load font
     font = TTF_OpenFont("assets/Fonts/Font.ttf", 20);
     // load score textures
@@ -23,7 +23,6 @@ void Scores::update(SDL_Renderer* renderer) {
         // update score every 5 frames
         if (scoresIndex >= 5) {
             scores++;
-            scoresDiff++;
             scoresIndex = 0;
             // point sound when over 100 points
             if (scores % 100 == 0) {
@@ -78,7 +77,6 @@ void Scores::reset(SDL_Renderer* renderer) {
     // reset current score
     scores = 0;
     scoresIndex = 0;
-    scoresDiff = 0;
     scoresInital = 0;
     
     // reset game speed
