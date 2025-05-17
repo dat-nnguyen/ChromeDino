@@ -41,7 +41,7 @@ void Obstacles::update(Uint32 currentTime){
     Uint32 elapsedTime = currentTime - lastSpawnTime;
 
     // maintain chance of spawning obstacles
-    if (elapsedTime > (1000 + gameSpeed * 150)) {  
+    if (elapsedTime > (1000 + gameSpeed * 100)) {  
         randomNumber = (rand() % 100);
         
         if (randomNumber < 40) {  // 40% chance for small cactus

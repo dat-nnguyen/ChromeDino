@@ -57,9 +57,7 @@ void Dino::update(Uint32 currentTime, vector<Obstacle>& obstacles) {
 
   if (!playerDead) {
       walk();  //  walking animation
-
       const Uint8* state = SDL_GetKeyboardState(nullptr);
-
       // jump input
       bool onGround = posY >= windowSize_y - 150.0f;
       bool jumping = state[SDL_SCANCODE_SPACE];
@@ -71,20 +69,20 @@ void Dino::update(Uint32 currentTime, vector<Obstacle>& obstacles) {
         sound->playJumpSound();
     }
       //gravity
-    velocityY += GRAVITY;
+        velocityY += GRAVITY;
 
       //velocity
-      posY += velocityY;
+        posY += velocityY;
 
       // touch ground
       if (posY >= windowSize_y - 150.0f) {
-          posY = windowSize_y - 150.0f;
-          velocityY = 0.0f;
+        posY = windowSize_y - 150.0f;
+        velocityY = 0.0f;
       }
 
       // choose frame
       if (!onGround) {
-            srcRect = frames[1];
+        srcRect = frames[1];
         }
 
 
