@@ -89,7 +89,6 @@ void updateGame(Uint32 currentTime, int mouseX, int mouseY, bool& mousePressed){
             obstacles->reset();
             dino->reset();
             scores->reset(renderer);
-            
             playerDead = false;
             mousePressed = false;
         }

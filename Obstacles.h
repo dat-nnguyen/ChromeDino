@@ -9,9 +9,9 @@ using namespace std;
 class Obstacle{
 public:
     SDL_Texture* texture;
-    SDL_Rect srcRect;      // Source rectangle
-    SDL_Rect destRect;     // Destination rectangle
-    SDL_Rect collisionRect; // Collision box
+    SDL_Rect srcRect;      // source rect
+    SDL_Rect destRect;     // destination rect
+    SDL_Rect collisionRect; // collision box
 
     Obstacle(SDL_Texture* tex, SDL_Renderer* renderer);
 };
@@ -20,9 +20,9 @@ class Obstacles{
 public:
     vector<Obstacle> obstacles;
     Uint32 lastSpawnTime;
-    SDL_Texture* obstacleTexture_1; // Small cactus
-    SDL_Texture* obstacleTexture_2; // Medium cactus
-    SDL_Texture* obstacleTexture_3; // Large cactus
+    SDL_Texture* obstacleTexture_1; // small cactus
+    SDL_Texture* obstacleTexture_2; // medium cactus
+    SDL_Texture* obstacleTexture_3; // large cactus
     int randomNumber;
 
     Obstacles(SDL_Renderer* renderer);

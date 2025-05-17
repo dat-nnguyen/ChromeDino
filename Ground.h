@@ -5,10 +5,10 @@
 class Ground {
 public:
     SDL_Texture* groundTexture;
-    SDL_Rect srcRect;  // Source rectangle for ground texture
-    SDL_Rect destRect; // Destination rectangle for rendering
-    int textureWidth;  // Total width of ground texture
-    int offset;        // Current offset for scrolling
+    SDL_Rect srcRect;  // source rect for ground texture
+    SDL_Rect destRect; // destination rect for rendering
+    int textureWidth; 
+    int offset; // offset for scrolling
 
     Ground(SDL_Renderer* renderer);
     ~Ground();

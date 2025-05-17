@@ -52,7 +52,6 @@ void Scores::update(SDL_Renderer* renderer) {
         
         SDL_FreeSurface(scoreSurface);
     }
-    
     // "SCORE" text
     SDL_Surface* scoreTextSurface = TTF_RenderText_Solid(font, "SCORE", textColor);
     if (scoreTextSurface) {
@@ -66,8 +65,6 @@ void Scores::update(SDL_Renderer* renderer) {
         SDL_FreeSurface(scoreTextSurface);
     }   
 }
-
-
 
 void Scores::render(SDL_Renderer* renderer) {
     // current score
