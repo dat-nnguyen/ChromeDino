@@ -20,17 +20,14 @@ void Scores::update(SDL_Renderer* renderer) {
     if (!playerDead) {
         // increase score counter
         scoresIndex++;
-        
         // update score every 5 frames
         if (scoresIndex >= 5) {
             scores++;
             scoresDiff++;
             scoresIndex = 0;
-            
             // point sound when over 100 points
             if (scores % 100 == 0) {
                 sound->playPointSound();
-                
                 // update speed when over 100 points
                 if (gameSpeed < 10) {
                     gameSpeed++;

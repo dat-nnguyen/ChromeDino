@@ -15,7 +15,7 @@ RestartButton::~RestartButton(){
 
 void RestartButton::render(SDL_Renderer* renderer) const{
     if (visible)
-        SDL_RenderCopy(renderer, texture, NULL, &destRect);
+        SDL_RenderCopy(renderer, texture, nullptr, &destRect);
 }
 
 bool RestartButton::isClicked(const int x, const int y) const{

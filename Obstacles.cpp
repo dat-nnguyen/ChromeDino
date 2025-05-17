@@ -51,7 +51,6 @@ void Obstacles::update(Uint32 currentTime){
         } else {  // 30% chance for large cactus
             obstacles.emplace_back(obstacleTexture_3, nullptr);
         }
-        
         lastSpawnTime = currentTime;
     }
     

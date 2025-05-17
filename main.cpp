@@ -120,15 +120,14 @@ void render(){
             SDL_Color textColor = {83, 83, 83, 255}; // Dark gray
             SDL_Surface* textSurface = TTF_RenderText_Solid(font, "Game Over", textColor);
             SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-            
             SDL_Rect textRect;
-            textRect.x = windowSize_x / 2 - textSurface->w / 2;
+
+            textRect.x = windowSize_x/2 - textSurface->w/2;
             textRect.y = windowSize_y / 2 - 50;
             textRect.w = textSurface->w;
             textRect.h = textSurface->h;
             
-            SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
-            
+            SDL_RenderCopy(renderer, textTexture, nullptr, &textRect);
             SDL_FreeSurface(textSurface);
             SDL_DestroyTexture(textTexture);
             TTF_CloseFont(font);
@@ -138,7 +137,7 @@ void render(){
         SDL_Rect restartRect = {static_cast<int>(windowSize_x) / 2 - 36, static_cast<int>(windowSize_y) / 2, 72, 64};
         SDL_Texture* restartTexture = IMG_LoadTexture(renderer, "assets/Images/RestartButton.png");
         if (restartTexture) {
-            SDL_RenderCopy(renderer, restartTexture, NULL, &restartRect);
+            SDL_RenderCopy(renderer, restartTexture, nullptr, &restartRect);
             SDL_DestroyTexture(restartTexture);
         }
     }
@@ -185,15 +184,12 @@ int main(int argc, char* argv[]) {
         while (SDL_PollEvent(&e) != 0) {
             handleEvents(e, quit, mouseX, mouseY, mousePressed);
         }
-        
         // current time
         Uint32 currentFrameTime = SDL_GetTicks();
         // update game
         updateGame(currentFrameTime, mouseX, mouseY, mousePressed);
-        
         // render
         render();
-        
         // rate frame to 60FPS
         if (currentFrameTime - lastFrameTime < 16) {
             SDL_Delay(16 - (currentFrameTime - lastFrameTime));
