@@ -15,18 +15,16 @@ public:
 
 private:
     TTF_Font* font;
-    
-    // Textures for displaying scores
-    SDL_Texture* scoreTexture;      // Current score
+    SDL_Texture* scoreTexture;      // current score
     SDL_Texture* scoreTextTexture;     // "Score" label
     
-    // Rectangle positions for text rendering
+    // rect positions for rendering
     SDL_Rect scoreRect;
     SDL_Rect scoreTextRect;
 
     Sound* sound;
-    int scores;            // Current score
-    int scoresIndex;       // Animation counter
-    int scoresDiff;        // Score since last speedup
-    int scoresInital;      // Base score for difficulty scaling
+    int scores;            // current score
+    int scoresIndex;       // animation counter
+    int scoresDiff;        // score since last speedup
+    int scoresInital;      // base score
 };

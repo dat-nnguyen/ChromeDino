@@ -6,27 +6,27 @@
 #include "SoundManager.h"
 #include "Constants.h"
 using namespace std;
-// Forward declaration to avoid circular dependencies
+
 class Obstacle;
 
-constexpr int FRAME_WIDTH = 90;
-constexpr int FRAME_HEIGHT = 95;
+const int FRAME_WIDTH = 90;
+const int FRAME_HEIGHT = 95;
 
 class Dino {
 public:
     SDL_Texture* dinoTexture;
-    SDL_Rect srcRect;      // Source rectangle for sprite sheet
-    SDL_Rect destRect;     // Destination rectangle for rendering
-    SDL_Rect collisionRect; // Collision box
+    SDL_Rect srcRect;      // source rect for sprite sheet
+    SDL_Rect destRect;     // destination rect for render
+    SDL_Rect collisionRect; // collision box
     
-    array<SDL_Rect, 6> frames;  // Animation frames
+    array<SDL_Rect, 6> frames;  // frames
     int animationCounter;
     
     float posY;        // Y position
-    float velocityY;   // Vertical velocity for jump physics
+    float velocityY;   // velocity for jump 
     
-    Sound* sound;      // Sound manager
-    Uint32 deathTime;  // Time when player died
+    Sound* sound;      // sound manager
+    Uint32 deathTime;  // time when die
     
     Dino(SDL_Renderer* renderer, Sound* soundManager);
     ~Dino();

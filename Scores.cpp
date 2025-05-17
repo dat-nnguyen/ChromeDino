@@ -5,11 +5,10 @@
 #include <iostream>
 
 using namespace std;
-Scores::Scores(SDL_Renderer* renderer, Sound* soundManager):font(NULL), sound(soundManager),scores(0), scoresIndex(0), scoresDiff(0), scoresInital(0) {
-    
-    // Initialize TTF
-    font = TTF_OpenFont("assets/Fonts/Font.ttf", 24);
-    // Initialize score textures
+Scores::Scores(SDL_Renderer* renderer, Sound* soundManager):font(NULL), sound(soundManager),scores(0), scoresIndex(0), scoresDiff(0), scoresInital(0){
+    // load font
+    font = TTF_OpenFont("assets/Fonts/Font.ttf", 20);
+    // load score textures
     update(renderer);
 }
 
@@ -19,20 +18,20 @@ Scores::~Scores() {
 
 void Scores::update(SDL_Renderer* renderer) {
     if (!playerDead) {
-        // Increase score counter
+        // increase score counter
         scoresIndex++;
         
-        // Update score every 5 frames
+        // update score every 5 frames
         if (scoresIndex >= 5) {
             scores++;
             scoresDiff++;
             scoresIndex = 0;
             
-            // Play point sound every 100 points
+            // point sound when over 100 points
             if (scores % 100 == 0) {
                 sound->playPointSound();
                 
-                // Update game speed every 100 points (up to a maximum)
+                // update speed when over 100 points
                 if (gameSpeed < 10) {
                     gameSpeed++;
                 }
@@ -40,10 +39,10 @@ void Scores::update(SDL_Renderer* renderer) {
         }
     }
     
-    // Render score text
-    SDL_Color textColor = {83, 83, 83, 255}; // Dark gray color
+    //score text
+    SDL_Color textColor = {83, 83, 83, 255}; //gray 
     
-    // Create current score texture
+    // current score texture
     SDL_Surface* scoreSurface = TTF_RenderText_Solid(font, to_string(scores).c_str(), textColor);
     if (scoreSurface) {
         scoreTexture = SDL_CreateTextureFromSurface(renderer, scoreSurface);
@@ -57,7 +56,7 @@ void Scores::update(SDL_Renderer* renderer) {
         SDL_FreeSurface(scoreSurface);
     }
     
-    // Create "SCORE" text
+    // "SCORE" text
     SDL_Surface* scoreTextSurface = TTF_RenderText_Solid(font, "SCORE", textColor);
     if (scoreTextSurface) {
         scoreTextTexture = SDL_CreateTextureFromSurface(renderer, scoreTextSurface);
@@ -74,23 +73,23 @@ void Scores::update(SDL_Renderer* renderer) {
 
 
 void Scores::render(SDL_Renderer* renderer) {
-    // Render current score
+    // current score
     SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);    
-    // Render high score label and value
+    // score label and value
     SDL_RenderCopy(renderer, scoreTextTexture, NULL, &scoreTextRect);
 
 }
 
 void Scores::reset(SDL_Renderer* renderer) {
-    // Reset current score
+    // reset current score
     scores = 0;
     scoresIndex = 0;
     scoresDiff = 0;
     scoresInital = 0;
     
-    // Reset game speed to initial value
+    // reset game speed
     gameSpeed = 4;
     
-    // Update score display
+    // update score display
     update(renderer);
 }

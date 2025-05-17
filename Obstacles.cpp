@@ -42,14 +42,14 @@ void Obstacles::update(Uint32 currentTime){
 
     // maintain chance of spawning obstacles
     if (elapsedTime > (1000 + gameSpeed * 150)) {  
-        randomNumber = (std::rand() % 100);
+        randomNumber = (rand() % 100);
         
         if (randomNumber < 40) {  // 40% chance for small cactus
-            obstacles.emplace_back(obstacleTexture_1, nullptr);
+            obstacles.emplace_back(obstacleTexture_1, NULL);
         } else if (randomNumber < 70) {  // 30% chance for medium cactus
-            obstacles.emplace_back(obstacleTexture_2, nullptr);
+            obstacles.emplace_back(obstacleTexture_2, NULL);
         } else {  // 30% chance for large cactus
-            obstacles.emplace_back(obstacleTexture_3, nullptr);
+            obstacles.emplace_back(obstacleTexture_3, NULL);
         }
         
         lastSpawnTime = currentTime;
@@ -62,7 +62,7 @@ void Obstacles::update(Uint32 currentTime){
             obstacles[i].collisionRect = obstacles[i].destRect;
             obstacles[i].collisionRect.w -= 10;
             
-            // Remove obstacles that have moved off screen
+            // Remove obstacles out off screen
             if (obstacles[i].destRect.x < -150) {
                 obstacles.erase(obstacles.begin() + i);
                 i--; // adjust index after erasing

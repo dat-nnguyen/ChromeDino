@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <ctime>
 #include "Constants.h"
-
+using namespace std;
 class Obstacle{
 public:
     SDL_Texture* texture;
@@ -18,7 +18,7 @@ public:
 
 class Obstacles{
 public:
-    std::vector<Obstacle> obstacles;
+    vector<Obstacle> obstacles;
     Uint32 lastSpawnTime;
     SDL_Texture* obstacleTexture_1; // Small cactus
     SDL_Texture* obstacleTexture_2; // Medium cactus

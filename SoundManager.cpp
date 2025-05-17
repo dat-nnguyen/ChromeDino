@@ -18,10 +18,8 @@ Sound::~Sound(){
 
 void Sound::playDieSound(){
     if (dieSound) {
-        // Stop any previously playing instances of the sound
-        Mix_HaltChannel(-1);
-        // Play sound on channel 0 (specific channel)
-        Mix_PlayChannel(0, dieSound, 0);
+        Mix_HaltChannel(-1); // stop sound on all channel
+        Mix_PlayChannel(0, dieSound, 0); // play die sound on channel 0
     }
 }
 
