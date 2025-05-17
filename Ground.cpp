@@ -7,7 +7,7 @@ Ground::Ground(SDL_Renderer* renderer) : offset(0) {
     groundTexture = IMG_LoadTexture(renderer, "assets/Images/GroundImage.png");
     
     if (groundTexture) {
-        SDL_QueryTexture(groundTexture, NULL, NULL, &textureWidth, &srcRect.h);
+        SDL_QueryTexture(groundTexture, nullptr, nullptr, &textureWidth, &srcRect.h);
         
         srcRect.x = 0;
         srcRect.y = 0;

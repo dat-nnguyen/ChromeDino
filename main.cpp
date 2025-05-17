@@ -12,47 +12,39 @@
 #include "SoundManager.h"
 using namespace std;
 // Global variables
-SDL_Window* window = NULL;
-SDL_Renderer* renderer = NULL;
-Sound* soundManager = NULL;
-Dino* dino = NULL;
-Ground* ground = NULL;
-Obstacles* obstacles = NULL;
-Scores* scores = NULL;
+SDL_Window* window = nullptr;
+SDL_Renderer* renderer = nullptr;
+Sound* soundManager = nullptr;
+Dino* dino = nullptr;
+Ground* ground = nullptr;
+Obstacles* obstacles = nullptr;
+Scores* scores = nullptr;
 
 bool init(){
-    // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
         cout << "SDL could not initialize! SDL Error: " << SDL_GetError() << endl;
         return false;
     }
-    
-    // Initialize SDL_image
     int imgFlags = IMG_INIT_PNG;
     if (!(IMG_Init(imgFlags) & imgFlags)) {
         cout << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << endl;
         return false;
     }
-    
-    // Initialize SDL_ttf
     if (TTF_Init() == -1) {
         cout << "SDL_ttf could not initialize! SDL_ttf Error: " << TTF_GetError() << endl;
         return false;
     }
-    
-    // Initialize SDL_mixer
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
         cout << "SDL_mixer could not initialize! SDL_mixer Error: " << Mix_GetError() << endl;
         return false;
     }
-    
     window = SDL_CreateWindow("Dino Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowSize_x, windowSize_y, SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     return true;
 }
 
 void loadGame(){
-    // Initialize game objects
+    // initialize objects
     soundManager = new Sound();
     dino = new Dino(renderer, soundManager);
     ground = new Ground(renderer);
@@ -65,13 +57,13 @@ void handleEvents(SDL_Event& event, bool& quit, int& mouseX, int& mouseY, bool& 
         quit = true;
     }
     
-    // Track mouse position
+    // track mouse position
     if (event.type == SDL_MOUSEMOTION) {
         mouseX = event.motion.x;
         mouseY = event.motion.y;
     }
     
-    // Track mouse button state
+    // track mouse button state
     if (event.type == SDL_MOUSEBUTTONDOWN) {
         if (event.button.button == SDL_BUTTON_LEFT) {
             mousePressed = true;
@@ -86,7 +78,7 @@ void handleEvents(SDL_Event& event, bool& quit, int& mouseX, int& mouseY, bool& 
 
 void updateGame(Uint32 currentTime, int mouseX, int mouseY, bool& mousePressed){
     if (playerDead) {
-        // Check if restart was clicked
+        // check restart was clicked
         SDL_Rect restartRect = {static_cast<int>(windowSize_x) / 2 - 36, static_cast<int>(windowSize_y) / 2, 72, 64};
         bool restartClicked = mousePressed && 
                              mouseX >= restartRect.x && mouseX <= restartRect.x + restartRect.w &&
@@ -110,19 +102,19 @@ void updateGame(Uint32 currentTime, int mouseX, int mouseY, bool& mousePressed){
 }
 
 void render(){
-    // Clear screen
+    // clear screen
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
     
-    // Render game objects
+    // render objects
     ground->render(renderer);
     obstacles->render(renderer);
     scores->render(renderer);
     dino->render(renderer);
     
-    // Draw game over screen if player is dead
+    // draw game over screen when die
     if (playerDead) {
-        // Render "Game Over" text
+        // render game over text
         TTF_Font* font = TTF_OpenFont("assets/Fonts/Font.ttf", 24);
         if (font) {
             SDL_Color textColor = {83, 83, 83, 255}; // Dark gray
@@ -151,23 +143,20 @@ void render(){
         }
     }
     
-    // Update screen
+    // update screen
     SDL_RenderPresent(renderer);
 }
 
 void cleanup(){
-    // Free resources
     delete dino;
     delete ground;
     delete obstacles;
     delete scores;
     delete soundManager;
-    
-    // Destroy window and renderer
+
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     
-    // Quit SDL subsystems
     Mix_Quit();
     TTF_Quit();
     IMG_Quit();
@@ -175,38 +164,37 @@ void cleanup(){
 }
 
 int main(int argc, char* argv[]) {
-    // Initialize SDL
+    // initialize SDL
     if (!init()) {
          return -1;
     }
     
-    // Load game assets
+    // load game assets
     loadGame();
     
-    // Game loop variables
+    // game loop var
     bool quit = false;
     SDL_Event e;
     int mouseX = 0, mouseY = 0;
     bool mousePressed = false;
     Uint32 lastFrameTime = SDL_GetTicks();
     
-    // Game loop
+    // game loop
     while (!quit) {
-        // Handle events
+        // events
         while (SDL_PollEvent(&e) != 0) {
             handleEvents(e, quit, mouseX, mouseY, mousePressed);
         }
         
-        // Get current time
+        // current time
         Uint32 currentFrameTime = SDL_GetTicks();
-        
-        // Update game state
+        // update game
         updateGame(currentFrameTime, mouseX, mouseY, mousePressed);
         
-        // Render the game
+        // render
         render();
         
-        // Cap frame rate to 60 FPS
+        // rate frame to 60FPS
         if (currentFrameTime - lastFrameTime < 16) {
             SDL_Delay(16 - (currentFrameTime - lastFrameTime));
         }

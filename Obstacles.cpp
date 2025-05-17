@@ -4,18 +4,18 @@
 #include <algorithm>
 using namespace std;
 Obstacle::Obstacle(SDL_Texture* tex, SDL_Renderer* renderer):texture(tex) {
-    // Configure the obstacle's source rectangle
+    // obstacle's source rectangle
     srcRect.x = 0;
     srcRect.y = 0;
-    SDL_QueryTexture(tex, NULL, NULL, &srcRect.w, &srcRect.h);
+    SDL_QueryTexture(tex, nullptr, nullptr, &srcRect.w, &srcRect.h);
     
-    // Position the obstacle at the right side of the screen
+    //obstacle positon
     destRect.x = windowSize_x;
     destRect.y = groundOffset;
     destRect.w = srcRect.w;
     destRect.h = srcRect.h;
     
-    // Set up collision rectangle
+    // collision rect
     collisionRect = destRect;
     collisionRect.w -= 10;
 }
@@ -23,8 +23,8 @@ Obstacle::Obstacle(SDL_Texture* tex, SDL_Renderer* renderer):texture(tex) {
 Obstacles::Obstacles(SDL_Renderer* renderer) : lastSpawnTime(0) {
     obstacles.reserve(5);
     
-    // Initialize random seed
-    srand(static_cast<unsigned int>(time(NULL)));
+    //random seed
+    srand(static_cast<unsigned int>(time(nullptr)));
     
     obstacleTexture_1 = IMG_LoadTexture(renderer, "assets/Images/Cactus1.png");
     obstacleTexture_2 = IMG_LoadTexture(renderer, "assets/Images/Cactus2.png");
@@ -45,11 +45,11 @@ void Obstacles::update(Uint32 currentTime){
         randomNumber = (rand() % 100);
         
         if (randomNumber < 40) {  // 40% chance for small cactus
-            obstacles.emplace_back(obstacleTexture_1, NULL);
+            obstacles.emplace_back(obstacleTexture_1, nullptr);
         } else if (randomNumber < 70) {  // 30% chance for medium cactus
-            obstacles.emplace_back(obstacleTexture_2, NULL);
+            obstacles.emplace_back(obstacleTexture_2, nullptr);
         } else {  // 30% chance for large cactus
-            obstacles.emplace_back(obstacleTexture_3, NULL);
+            obstacles.emplace_back(obstacleTexture_3, nullptr);
         }
         
         lastSpawnTime = currentTime;
@@ -57,12 +57,12 @@ void Obstacles::update(Uint32 currentTime){
     
     if (!playerDead) {
         for (int i = 0; i < obstacles.size(); i++) {
-            // Update obstacle position and collision box
+            // update obstacle position and collision box
             obstacles[i].destRect.x -= gameSpeed;
             obstacles[i].collisionRect = obstacles[i].destRect;
             obstacles[i].collisionRect.w -= 10;
             
-            // Remove obstacles out off screen
+            // remove obstacles out off screen
             if (obstacles[i].destRect.x < -150) {
                 obstacles.erase(obstacles.begin() + i);
                 i--; // adjust index after erasing

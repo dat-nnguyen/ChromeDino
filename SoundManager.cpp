@@ -4,7 +4,7 @@
 #include <iostream>
 
 using namespace std;
-Sound::Sound():dieSound(NULL), jumpSound(NULL), pointSound(NULL){
+Sound::Sound():dieSound(nullptr), jumpSound(nullptr), pointSound(nullptr){
     dieSound = Mix_LoadWAV("assets/Sounds/Die.wav");
     jumpSound = Mix_LoadWAV("assets/Sounds/Jump.wav");
     pointSound = Mix_LoadWAV("assets/Sounds/Point.wav");
@@ -25,12 +25,12 @@ void Sound::playDieSound(){
 
 void Sound::playJumpSound(){
     if (jumpSound) {
-        Mix_PlayChannel(-1, jumpSound, 0);
+        Mix_PlayChannel(-1, jumpSound, 0); // play on free channel
     }
 }
 
 void Sound::playPointSound(){
     if (pointSound) {
-        Mix_PlayChannel(-1, pointSound, 0);
+        Mix_PlayChannel(-1, pointSound, 0); // play on free channel
     }
 }

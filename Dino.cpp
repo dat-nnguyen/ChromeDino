@@ -58,7 +58,7 @@ void Dino::update(Uint32 currentTime, vector<Obstacle>& obstacles) {
   if (!playerDead) {
       walk();  //  walking animation
 
-      const Uint8* state = SDL_GetKeyboardState(NULL);
+      const Uint8* state = SDL_GetKeyboardState(nullptr);
 
       // jump input
       bool onGround = posY >= windowSize_y - 150.0f;
@@ -83,7 +83,10 @@ void Dino::update(Uint32 currentTime, vector<Obstacle>& obstacles) {
       }
 
       // choose frame
-      srcRect = (posY < windowSize_y - 150.0f) ? frames[1] : srcRect;
+      if (!onGround) {
+            srcRect = frames[1];
+        }
+
 
   } else {
       // death state

@@ -5,7 +5,7 @@
 #include <iostream>
 
 using namespace std;
-Scores::Scores(SDL_Renderer* renderer, Sound* soundManager):font(NULL), sound(soundManager),scores(0), scoresIndex(0), scoresDiff(0), scoresInital(0){
+Scores::Scores(SDL_Renderer* renderer, Sound* soundManager):font(nullptr), sound(soundManager),scores(0), scoresIndex(0), scoresDiff(0), scoresInital(0){
     // load font
     font = TTF_OpenFont("assets/Fonts/Font.ttf", 20);
     // load score textures
@@ -74,9 +74,9 @@ void Scores::update(SDL_Renderer* renderer) {
 
 void Scores::render(SDL_Renderer* renderer) {
     // current score
-    SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);    
+    SDL_RenderCopy(renderer, scoreTexture, nullptr, &scoreRect);    
     // score label and value
-    SDL_RenderCopy(renderer, scoreTextTexture, NULL, &scoreTextRect);
+    SDL_RenderCopy(renderer, scoreTextTexture, nullptr, &scoreTextRect);
 
 }
 
