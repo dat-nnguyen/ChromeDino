@@ -21,8 +21,6 @@ Obstacle::Obstacle(SDL_Texture* tex, SDL_Renderer* renderer):texture(tex) {
 }
 
 Obstacles::Obstacles(SDL_Renderer* renderer) : lastSpawnTime(0) {
-    obstacles.reserve(5);
-    
     //random seed
     srand(static_cast<unsigned int>(time(nullptr)));
     
