@@ -71,7 +71,7 @@ void Dino::update(Uint32 currentTime, vector<Obstacle>& obstacles) {
       //gravity
         velocityY += GRAVITY;
 
-      //velocity
+      //velocity, update position with velocity
         posY += velocityY;
 
       // touch ground
